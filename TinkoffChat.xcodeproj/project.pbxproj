@@ -8,20 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		98E0F8011F72C9C7002E1496 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E0F8001F72C9C7002E1496 /* AppDelegate.swift */; };
-		98E0F8031F72C9C7002E1496 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E0F8021F72C9C7002E1496 /* ViewController.swift */; };
-		98E0F8061F72C9C7002E1496 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E0F8041F72C9C7002E1496 /* Main.storyboard */; };
+		98E0F8031F72C9C7002E1496 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E0F8021F72C9C7002E1496 /* ProfileViewController.swift */; };
+		98E0F8061F72C9C7002E1496 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E0F8041F72C9C7002E1496 /* Profile.storyboard */; };
 		98E0F8081F72C9C7002E1496 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98E0F8071F72C9C7002E1496 /* Assets.xcassets */; };
 		98E0F80B1F72C9C7002E1496 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E0F8091F72C9C7002E1496 /* LaunchScreen.storyboard */; };
+		98E0F8131F72D1A8002E1496 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98E0F8121F72D1A8002E1496 /* Media.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9832BAF51F764AA100838DB2 /* Radomir Tinkov - Gilroy-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Radomir Tinkov - Gilroy-ExtraBold.otf"; sourceTree = "<group>"; };
+		9832BAF61F764AA100838DB2 /* Radomir Tinkov - Gilroy-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Radomir Tinkov - Gilroy-Light.otf"; sourceTree = "<group>"; };
 		98E0F7FD1F72C9C7002E1496 /* TinkoffChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E0F8001F72C9C7002E1496 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		98E0F8021F72C9C7002E1496 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		98E0F8051F72C9C7002E1496 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		98E0F8021F72C9C7002E1496 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		98E0F8051F72C9C7002E1496 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
 		98E0F8071F72C9C7002E1496 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		98E0F80A1F72C9C7002E1496 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		98E0F80C1F72C9C7002E1496 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		98E0F8121F72D1A8002E1496 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +39,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9832BAF41F764A8000838DB2 /* Resourses */ = {
+			isa = PBXGroup;
+			children = (
+				9832BAF51F764AA100838DB2 /* Radomir Tinkov - Gilroy-ExtraBold.otf */,
+				9832BAF61F764AA100838DB2 /* Radomir Tinkov - Gilroy-Light.otf */,
+			);
+			path = Resourses;
+			sourceTree = "<group>";
+		};
 		98E0F7F41F72C9C7002E1496 = {
 			isa = PBXGroup;
 			children = (
@@ -54,9 +67,11 @@
 		98E0F7FF1F72C9C7002E1496 /* TinkoffChat */ = {
 			isa = PBXGroup;
 			children = (
+				9832BAF41F764A8000838DB2 /* Resourses */,
 				98E0F8001F72C9C7002E1496 /* AppDelegate.swift */,
-				98E0F8021F72C9C7002E1496 /* ViewController.swift */,
-				98E0F8041F72C9C7002E1496 /* Main.storyboard */,
+				98E0F8021F72C9C7002E1496 /* ProfileViewController.swift */,
+				98E0F8041F72C9C7002E1496 /* Profile.storyboard */,
+				98E0F8121F72D1A8002E1496 /* Media.xcassets */,
 				98E0F8071F72C9C7002E1496 /* Assets.xcassets */,
 				98E0F8091F72C9C7002E1496 /* LaunchScreen.storyboard */,
 				98E0F80C1F72C9C7002E1496 /* Info.plist */,
@@ -125,7 +140,8 @@
 			files = (
 				98E0F80B1F72C9C7002E1496 /* LaunchScreen.storyboard in Resources */,
 				98E0F8081F72C9C7002E1496 /* Assets.xcassets in Resources */,
-				98E0F8061F72C9C7002E1496 /* Main.storyboard in Resources */,
+				98E0F8131F72D1A8002E1496 /* Media.xcassets in Resources */,
+				98E0F8061F72C9C7002E1496 /* Profile.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98E0F8031F72C9C7002E1496 /* ViewController.swift in Sources */,
+				98E0F8031F72C9C7002E1496 /* ProfileViewController.swift in Sources */,
 				98E0F8011F72C9C7002E1496 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -144,12 +160,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		98E0F8041F72C9C7002E1496 /* Main.storyboard */ = {
+		98E0F8041F72C9C7002E1496 /* Profile.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				98E0F8051F72C9C7002E1496 /* Base */,
 			);
-			name = Main.storyboard;
+			name = Profile.storyboard;
 			sourceTree = "<group>";
 		};
 		98E0F8091F72C9C7002E1496 /* LaunchScreen.storyboard */ = {
@@ -273,7 +289,7 @@
 		98E0F8101F72C9C7002E1496 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_newDesign;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F8LU4P8SUH;
 				INFOPLIST_FILE = TinkoffChat/Info.plist;
@@ -288,7 +304,7 @@
 		98E0F8111F72C9C7002E1496 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_newDesign;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F8LU4P8SUH;
 				INFOPLIST_FILE = TinkoffChat/Info.plist;
