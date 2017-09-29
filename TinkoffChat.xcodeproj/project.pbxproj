@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9877C8A31F7EE93800DAD63B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9877C8A21F7EE93800DAD63B /* .gitignore */; };
 		98E0F8011F72C9C7002E1496 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E0F8001F72C9C7002E1496 /* AppDelegate.swift */; };
 		98E0F8031F72C9C7002E1496 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E0F8021F72C9C7002E1496 /* ProfileViewController.swift */; };
 		98E0F8061F72C9C7002E1496 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E0F8041F72C9C7002E1496 /* Profile.storyboard */; };
@@ -21,7 +20,6 @@
 /* Begin PBXFileReference section */
 		9832BAF51F764AA100838DB2 /* Radomir Tinkov - Gilroy-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Radomir Tinkov - Gilroy-ExtraBold.otf"; sourceTree = "<group>"; };
 		9832BAF61F764AA100838DB2 /* Radomir Tinkov - Gilroy-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Radomir Tinkov - Gilroy-Light.otf"; sourceTree = "<group>"; };
-		9877C8A21F7EE93800DAD63B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		98E0F7FD1F72C9C7002E1496 /* TinkoffChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E0F8001F72C9C7002E1496 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98E0F8021F72C9C7002E1496 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -79,7 +77,6 @@
 				98E0F8071F72C9C7002E1496 /* Assets.xcassets */,
 				98E0F8091F72C9C7002E1496 /* LaunchScreen.storyboard */,
 				98E0F80C1F72C9C7002E1496 /* Info.plist */,
-				9877C8A21F7EE93800DAD63B /* .gitignore */,
 			);
 			path = TinkoffChat;
 			sourceTree = "<group>";
@@ -149,7 +146,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				98F1A4541F7C3E9B0063980B /* Radomir Tinkov - Gilroy-ExtraBold.otf in Resources */,
-				9877C8A31F7EE93800DAD63B /* .gitignore in Resources */,
 				98F1A4551F7C3E9B0063980B /* Radomir Tinkov - Gilroy-Light.otf in Resources */,
 				98E0F80B1F72C9C7002E1496 /* LaunchScreen.storyboard in Resources */,
 				98E0F8081F72C9C7002E1496 /* Assets.xcassets in Resources */,
