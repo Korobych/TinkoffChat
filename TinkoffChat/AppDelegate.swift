@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Вызывается при удачной инициализации приложения
         newState = "Foreground Inactive"
         finalString = "Application moved from " + prevState + " to " + newState + " state: "
-            + StateName() + "\n"
+            + stateName() + "\n"
         print(finalString)
         prevState = newState
         return true
@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Приостановка работы приложения. Например: входящий вызов или нажатие на кнопку Home.
         newState = "Foreground Inactive"
         finalString = "Application moved from " + prevState + " to " + newState + " state: "
-            + StateName() + "\n"
+            + stateName() + "\n"
         print(finalString)
         prevState = newState
     }
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Переход в состояние фонового выполнения задач.
         newState = "Background"
         finalString = "Application moved from " + prevState + " to " + newState + " state: "
-            + StateName() + "\n"
+            + stateName() + "\n"
         print(finalString)
         prevState = newState
     }
@@ -57,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Приложение перешло в состояние Foreground Inactive, оно было вызвано из свернутого состояния и было в фоновом состоянии.
         newState = "Foreground Inactive"
         finalString = "Application moved from " + prevState + " to " + newState + " state: "
-            + StateName() + "\n"
+            + stateName() + "\n"
         print(finalString)
         prevState = newState
     }
@@ -66,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Приложение снова стало активным.
         newState = "Foreground Active"
         finalString = "Application moved from " + prevState + " to " + newState + " state: "
-            + StateName() + "\n"
+            + stateName() + "\n"
         print(finalString)
         prevState = newState
     }
@@ -75,13 +75,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //При закрытии приложения. Вызывается только при работе приложения, не вызывается из состояния Suspended.
         newState = "Not Running"
         finalString = "Application moved from " + prevState + " to " + newState + " state: "
-            + StateName() + "\n"
+            + stateName() + "\n"
         print(finalString)
         prevState = newState
     }
     
     //Функция, возвращающая имя функции, из которой она была вызвана.
-    func StateName(string: String = #function) -> String {
+    func stateName(string: String = #function) -> String {
         return string
     }
 
