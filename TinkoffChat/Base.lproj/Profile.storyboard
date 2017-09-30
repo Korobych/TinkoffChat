@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina5_5" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -23,24 +23,24 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ProfileViewController" customModule="TinkoffChat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="2a6-H2-bMe">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3rp-EL-8oL">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="400"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="306"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder-user" translatesAutoresizingMaskIntoConstraints="NO" id="od6-0K-vIR">
-                                                <rect key="frame" x="46" y="52" width="321" height="321"/>
+                                                <rect key="frame" x="46" y="52" width="227" height="227"/>
                                                 <color key="backgroundColor" red="0.14632478995310283" green="0.27055818365014628" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="od6-0K-vIR" secondAttribute="height" multiplier="1:1" id="QRj-ro-cWD"/>
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gqw-Sq-TFW">
-                                                <rect key="frame" x="267" y="273" width="100" height="100"/>
+                                                <rect key="frame" x="173" y="179" width="100" height="100"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="100" id="IBJ-Z3-7iq"/>
                                                     <constraint firstAttribute="width" secondItem="gqw-Sq-TFW" secondAttribute="height" multiplier="1:1" id="fm5-KT-E6S"/>
@@ -64,10 +64,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V8E-ky-mVy">
-                                        <rect key="frame" x="0.0" y="400" width="414" height="271"/>
+                                        <rect key="frame" x="0.0" y="306" width="320" height="197"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Sergey Korobin" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="122" translatesAutoresizingMaskIntoConstraints="NO" id="oaK-lC-gNA">
-                                                <rect key="frame" x="46" y="8" width="188" height="47"/>
+                                                <rect key="frame" x="46" y="8" width="165.5" height="47"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="47" id="3Uq-oe-6lC"/>
                                                 </constraints>
@@ -76,7 +76,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Redhead programmer. Swift is my passion :D" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4C-lE-SSz">
-                                                <rect key="frame" x="46" y="55" width="303.66666666666669" height="51.333333333333314"/>
+                                                <rect key="frame" x="46" y="55" width="226.5" height="51.5"/>
                                                 <fontDescription key="fontDescription" name="Gilroy-Light" family="Gilroy" pointSize="22"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
@@ -94,10 +94,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0hc-D7-ZAK">
-                                        <rect key="frame" x="0.0" y="671" width="414" height="65"/>
+                                        <rect key="frame" x="0.0" y="503" width="320" height="65"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CpL-xs-8cr">
-                                                <rect key="frame" x="54" y="0.0" width="305" height="59"/>
+                                                <rect key="frame" x="54" y="0.0" width="211" height="59"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <state key="normal" title="Редактировать">
                                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -142,7 +142,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="placeholder-user" width="200" height="200"/>
-        <image name="slr-camera-2-xxl-1" width="85" height="85"/>
+        <image name="placeholder-user" width="300" height="300"/>
+        <image name="slr-camera-2-xxl-1" width="128" height="128"/>
     </resources>
 </document>
