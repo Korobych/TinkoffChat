@@ -67,7 +67,7 @@
                                         <rect key="frame" x="0.0" y="306" width="320" height="197"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Sergey Korobin" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="122" translatesAutoresizingMaskIntoConstraints="NO" id="oaK-lC-gNA">
-                                                <rect key="frame" x="46" y="8" width="165.5" height="47"/>
+                                                <rect key="frame" x="46" y="8" width="170" height="47"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="47" id="3Uq-oe-6lC"/>
                                                 </constraints>
@@ -76,7 +76,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Redhead programmer. Swift is my passion :D" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4C-lE-SSz">
-                                                <rect key="frame" x="46" y="55" width="226.5" height="51.5"/>
+                                                <rect key="frame" x="46" y="55" width="235.5" height="51"/>
                                                 <fontDescription key="fontDescription" name="Gilroy-Light" family="Gilroy" pointSize="22"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
