@@ -180,10 +180,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         if photosStatus == .notDetermined {
             PHPhotoLibrary.requestAuthorization({status in
                 if status == .authorized{
+                    DispatchQueue.main.async {
                     self.imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-                    self.imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
                     self.imagePicker.allowsEditing = true
                     self.present(self.imagePicker, animated: true, completion: nil)
+                    }
                 } else {
                     DispatchQueue.main.async {
                     self.present(deniedGalleryAccessAlert, animated: true, completion: nil)
@@ -192,10 +193,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             })
         } else if photosStatus == .authorized
         {
+            DispatchQueue.main.async {
             self.imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-            self.imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
             self.imagePicker.allowsEditing = true
             self.present(self.imagePicker, animated: true, completion: nil)
+            }
         } else {
             self.present(deniedGalleryAccessAlert, animated: true, completion: nil)
         }
