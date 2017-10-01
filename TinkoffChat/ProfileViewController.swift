@@ -40,7 +40,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker.delegate = self
-        logString = "\(editButton.frame) - \(#function)"
+        logString = "\(editButton.frame) - \(#function)\n"
         print(logString)
         editButton.layer.cornerRadius = 10
         editButton.layer.borderWidth = 1
@@ -86,7 +86,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         super.viewDidDisappear(animated)
         logString = "\(editButton.frame) - \(#function)"
         print(logString)
-        // SOLVED: Значение фрейма отличается от предыдущего поскольку именно на данном этапе (а не в viewDidLoad) вью полностью прогружено (+ подгрузило всю иерархию элементов на экране) и появилось на экране. Именно это значение фрейма можно считать истинным в данном кейсе.
+        // SOLVED: Значение фрейма отличается от предыдущего поскольку именно на данном этапе (а не в viewDidLoad) вью полностью прогружено (+ подгрузило всю иерархию элементов на экране) и появилось на экране. Именно это значение фрейма можно считать истинным в данном кейсе. Поскольку изначально оно отталкивалось от значений превью(iPhone SE), а при постройке актуального (на конечном устройстве к примеру: iPhone X) размеры могут отличаться. Следовательно нам нужно знать конечное значение.
     }
     
     //Метод, который вызвается при изменении layout’а view.
