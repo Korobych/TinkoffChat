@@ -38,9 +38,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func editAction(_ sender: Any) {
-        
+        // действия после прожатия на кнопку Редактировать
     }
-    
+    //Логика закрытия модального окна профиля
     @IBAction func modalViewClosureInit(_ sender: Any) {
         self.dismiss(animated: true)
     }

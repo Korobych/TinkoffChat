@@ -7,24 +7,25 @@
 //
 
 import UIKit
-
+// для удобства вызова вчерашней даты (необходимо для проверки на замену формата вывода даты последнего сообщения)
 extension Date {
     var yesterday: Date {
         return Calendar.current.date(byAdding: .day, value: -1, to: self)!
     }
 }
-
+// Класс ячейки диалогов
 class DialogCustomCell: UITableViewCell {
     
-    
+    // Имя
     @IBOutlet weak var dialogPartnerNameLabel: UILabel!
-    
+    //Текст последнего сообщения
     @IBOutlet weak var dialogPartnerLastMessageLabel: UILabel!
-    
+    //Дата последнего сообщения
     @IBOutlet weak var dialogPartnerLastMessageDateLabel: UILabel!
     
     
     func setupCell(name: String?, message: String?, date: Date?, online: Bool, unread: Bool){
+        // Логика проверки даты
         let dateFormatter = DateFormatter()
         if date != nil{
             if date! < Date().yesterday{
@@ -33,12 +34,13 @@ class DialogCustomCell: UITableViewCell {
                 dateFormatter.setLocalizedDateFormatFromTemplate("HH:mm")
             }
         }
-        // !!!!! ТУТ ЛОГИКА НА ПРОВЕРКУ ГДЕ ТО !!! можно вынести в другую функцию
+        //логика проверки нулевого сообщения + установление для него нового шрифта
         if message == nil{
             dialogPartnerLastMessageLabel.font = UIFont(name: "HelveticaNeue-LightItalic", size: 14)
             dialogPartnerLastMessageLabel.text = "No messages yet"
         }
         else{
+            // логика выделения жирным шрифтом непрочитанного сообещения
             if unread{
                 dialogPartnerLastMessageLabel.font = UIFont.boldSystemFont(ofSize: 15)
             } else
@@ -52,10 +54,6 @@ class DialogCustomCell: UITableViewCell {
         dialogPartnerLastMessageDateLabel.text = dateFormatter.string(for: date)
     }
 
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
     
 
 }

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		98182A9C1F87E25100C4B573 /* ConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98182A9B1F87E25100C4B573 /* ConversationsListViewController.swift */; };
+		982FD4981F8A830B00691C5B /* IncomingMessageCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982FD4971F8A830B00691C5B /* IncomingMessageCustomCell.swift */; };
+		982FD49A1F8A832100691C5B /* OutgoingMessageCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982FD4991F8A832100691C5B /* OutgoingMessageCustomCell.swift */; };
 		98BBA3F21F896A370025AC8E /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BBA3F11F896A370025AC8E /* ConversationViewController.swift */; };
 		98CA67FB1F880FA2001478A2 /* DialogCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CA67FA1F880FA2001478A2 /* DialogCustomCell.swift */; };
 		98E0F8011F72C9C7002E1496 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E0F8001F72C9C7002E1496 /* AppDelegate.swift */; };
@@ -22,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		98182A9B1F87E25100C4B573 /* ConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListViewController.swift; sourceTree = "<group>"; };
+		982FD4971F8A830B00691C5B /* IncomingMessageCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingMessageCustomCell.swift; sourceTree = "<group>"; };
+		982FD4991F8A832100691C5B /* OutgoingMessageCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingMessageCustomCell.swift; sourceTree = "<group>"; };
 		9832BAF51F764AA100838DB2 /* Radomir Tinkov - Gilroy-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Radomir Tinkov - Gilroy-ExtraBold.otf"; sourceTree = "<group>"; };
 		9832BAF61F764AA100838DB2 /* Radomir Tinkov - Gilroy-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Radomir Tinkov - Gilroy-Light.otf"; sourceTree = "<group>"; };
 		98BBA3F11F896A370025AC8E /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +60,16 @@
 			path = Resourses;
 			sourceTree = "<group>";
 		};
+		98D6CAC61F8A4FDC00FC35BB /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				98CA67FA1F880FA2001478A2 /* DialogCustomCell.swift */,
+				982FD4971F8A830B00691C5B /* IncomingMessageCustomCell.swift */,
+				982FD4991F8A832100691C5B /* OutgoingMessageCustomCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		98E0F7F41F72C9C7002E1496 = {
 			isa = PBXGroup;
 			children = (
@@ -75,12 +89,12 @@
 		98E0F7FF1F72C9C7002E1496 /* TinkoffChat */ = {
 			isa = PBXGroup;
 			children = (
+				98D6CAC61F8A4FDC00FC35BB /* Cells */,
 				9832BAF41F764A8000838DB2 /* Resourses */,
 				98E0F8001F72C9C7002E1496 /* AppDelegate.swift */,
 				98BBA3F11F896A370025AC8E /* ConversationViewController.swift */,
 				98E0F8021F72C9C7002E1496 /* ProfileViewController.swift */,
 				98E0F8041F72C9C7002E1496 /* Profile.storyboard */,
-				98CA67FA1F880FA2001478A2 /* DialogCustomCell.swift */,
 				98182A9B1F87E25100C4B573 /* ConversationsListViewController.swift */,
 				98E0F8121F72D1A8002E1496 /* Media.xcassets */,
 				98E0F8071F72C9C7002E1496 /* Assets.xcassets */,
@@ -172,7 +186,9 @@
 			files = (
 				98CA67FB1F880FA2001478A2 /* DialogCustomCell.swift in Sources */,
 				98E0F8031F72C9C7002E1496 /* ProfileViewController.swift in Sources */,
+				982FD4981F8A830B00691C5B /* IncomingMessageCustomCell.swift in Sources */,
 				98BBA3F21F896A370025AC8E /* ConversationViewController.swift in Sources */,
+				982FD49A1F8A832100691C5B /* OutgoingMessageCustomCell.swift in Sources */,
 				98E0F8011F72C9C7002E1496 /* AppDelegate.swift in Sources */,
 				98182A9C1F87E25100C4B573 /* ConversationsListViewController.swift in Sources */,
 			);

@@ -19,13 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-//        window = UIWindow.init(frame: UIScreen.main.bounds) // инициализация окна
-//        if let keyWindow = window //undbinding?
-//        {
-//            keyWindow.rootViewController = ProfileViewController() // связать с рутом
-//            keyWindow.makeKeyAndVisible()
-//            
-//        }
         // Вызывается при удачной инициализации приложения
         newState = "Foreground Inactive"
         finalString = "Application moved from " + prevState + " to " + newState + " state: "
