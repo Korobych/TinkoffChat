@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		98182A9C1F87E25100C4B573 /* ConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98182A9B1F87E25100C4B573 /* ConversationsListViewController.swift */; };
+		98BBA3F21F896A370025AC8E /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BBA3F11F896A370025AC8E /* ConversationViewController.swift */; };
+		98CA67FB1F880FA2001478A2 /* DialogCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CA67FA1F880FA2001478A2 /* DialogCustomCell.swift */; };
 		98E0F8011F72C9C7002E1496 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E0F8001F72C9C7002E1496 /* AppDelegate.swift */; };
 		98E0F8031F72C9C7002E1496 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E0F8021F72C9C7002E1496 /* ProfileViewController.swift */; };
 		98E0F8061F72C9C7002E1496 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E0F8041F72C9C7002E1496 /* Profile.storyboard */; };
@@ -18,8 +21,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		98182A9B1F87E25100C4B573 /* ConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListViewController.swift; sourceTree = "<group>"; };
 		9832BAF51F764AA100838DB2 /* Radomir Tinkov - Gilroy-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Radomir Tinkov - Gilroy-ExtraBold.otf"; sourceTree = "<group>"; };
 		9832BAF61F764AA100838DB2 /* Radomir Tinkov - Gilroy-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Radomir Tinkov - Gilroy-Light.otf"; sourceTree = "<group>"; };
+		98BBA3F11F896A370025AC8E /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		98CA67FA1F880FA2001478A2 /* DialogCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogCustomCell.swift; sourceTree = "<group>"; };
 		98E0F7FD1F72C9C7002E1496 /* TinkoffChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E0F8001F72C9C7002E1496 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98E0F8021F72C9C7002E1496 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -71,8 +77,11 @@
 			children = (
 				9832BAF41F764A8000838DB2 /* Resourses */,
 				98E0F8001F72C9C7002E1496 /* AppDelegate.swift */,
+				98BBA3F11F896A370025AC8E /* ConversationViewController.swift */,
 				98E0F8021F72C9C7002E1496 /* ProfileViewController.swift */,
 				98E0F8041F72C9C7002E1496 /* Profile.storyboard */,
+				98CA67FA1F880FA2001478A2 /* DialogCustomCell.swift */,
+				98182A9B1F87E25100C4B573 /* ConversationsListViewController.swift */,
 				98E0F8121F72D1A8002E1496 /* Media.xcassets */,
 				98E0F8071F72C9C7002E1496 /* Assets.xcassets */,
 				98E0F8091F72C9C7002E1496 /* LaunchScreen.storyboard */,
@@ -161,8 +170,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98CA67FB1F880FA2001478A2 /* DialogCustomCell.swift in Sources */,
 				98E0F8031F72C9C7002E1496 /* ProfileViewController.swift in Sources */,
+				98BBA3F21F896A370025AC8E /* ConversationViewController.swift in Sources */,
 				98E0F8011F72C9C7002E1496 /* AppDelegate.swift in Sources */,
+				98182A9C1F87E25100C4B573 /* ConversationsListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
