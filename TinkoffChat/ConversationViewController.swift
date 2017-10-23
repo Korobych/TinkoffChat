@@ -10,32 +10,74 @@ import UIKit
 
 protocol MessageCellConfiguration {
     var text: String? {get set}
+    var type: String {get set}
 }
 
-class ReceivedMessageData : MessageCellConfiguration{
+class ReceivedMessageData : Codable, MessageCellConfiguration{
+    let eventType = "TextMessage"
+    let messageId = generateMessageId()
     var text: String?
-    init(message: String?) {
+    var type: String
+    var date: Date?
+    init(message: String?, type: String) {
         self.text = message
+        self.type = type
+        self.date = Date()
     }
     
+    static func generateMessageId() -> String {
+        return ("\(arc4random_uniform(UINT32_MAX))+\(Date.timeIntervalSinceReferenceDate)+\(arc4random_uniform(UINT32_MAX))".data(using: .utf8)?.base64EncodedString())!
+    }
+    
+    
 }
 
-class ConversationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ConversationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CommunicationManagerDelegate {
     
-    @IBOutlet weak var messagesTableView: UITableView!
+    var communicationManager: CommunicationManager!
+    var conversation: DialogCustomOnlineCellData!
     //строка с предыдущего экрана с Именем собеседника - идет в тайтл
     var dialogPersonNameString: String?
     //экстра функционал - не используется в тз (для логики очистки экрана диалога при отсутствии сообщений)
     var dialogLastMessageString: String?
     // искусственно созданный лист сообщений
-    var messagesList = [ReceivedMessageData]()
+    
+    @IBOutlet weak var messagesTableView: UITableView!
+    
+    @IBOutlet weak var messageTextFiled: UITextField!
+    
+    @IBOutlet weak var sendButton: UIButton!
+    
+    @IBAction func sendButtonTapped(_ sender: Any) {
+        communicationManager.sendMessageToDialog(dialog: conversation, text: messageTextFiled.text!, successHadler:
+        { (success) in
+            if success {
+                self.messageTextFiled.text = ""
+                self.messageTextFiled.endEditing(true)
+                self.messagesTableView.reloadData()
+            }
+        })
+    }
+    
+    func reloadAfterChange() {
+        DispatchQueue.main.async {
+            self.messagesTableView.reloadData()
+            if self.conversation.online {
+                self.sendButton.isEnabled = true
+            } else {
+                self.sendButton.isEnabled = false
+            }
+            self.conversation.hasUnreadMessages = false
+        }
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return messagesList.count
+        return conversation.messagesStore.count
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -49,53 +91,58 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section % 2 == 0{
-            // реализация протопипа ячейки входящего сообщения
+        let messageUnit = conversation.messagesStore[indexPath.section]
+        if messageUnit.type == "incoming"{
             let cell = tableView.dequeueReusableCell(withIdentifier: "PartnerMessage", for: indexPath) as! IncomingMessageCustomCell
-            cell.messageCellFixing() // см. описание класса IncomingMessageCustomCell
-            cell.setupCell(message: messagesList[indexPath.section].text)
+            cell.messageCellFixing()
+            cell.setupCell(message: messageUnit.text)
             DispatchQueue.main.async {
                 cell.layer.borderWidth = 0
                 cell.layer.cornerRadius = 15
             }
             return cell
             
-        } else{
-            // реализация прототипа ячейки исходящего сообщения
+        } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MyMessage", for: indexPath) as! OutgoingMessageCustomCell
-                cell.messageCellFixing() // см. описание класса OutgoingMessageCustomCell
-                cell.setupCell(message: messagesList[indexPath.section].text)
-                DispatchQueue.main.async {
-                    cell.layer.borderWidth = 0
-                    cell.layer.cornerRadius = 15
+            cell.messageCellFixing()
+            cell.setupCell(message: messageUnit.text)
+            DispatchQueue.main.async {
+                cell.layer.borderWidth = 0
+                cell.layer.cornerRadius = 15
             }
             return cell
-            
+        
         }
-
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.messagesTableView.dataSource = self
         self.messagesTableView.delegate = self
+        self.communicationManager.communicationManagerDelegate = self
         navigationItem.title = self.dialogPersonNameString
-        // экстра функционал, делал чисто для проверки. В тз не используется. Если передается строка об отсутсвии сообщений в перписке - чистит массив.
-        //-----------------------
-        // SORRY Выбор хардкодингого варианта заполения информации  выбрал исходя из отсутствия уточнений в тз. Так же трудно ориентироваться без будущего понимания работы, хранения данных переписок, онлайна пользователей. Определенно структуру хранения данных переделаю с получением информации о дальнейшем развитии данного таска.
-        //-----------------------
-        if dialogLastMessageString != nil{
-            
-        messagesList.append(ReceivedMessageData(message: "O"))
-        messagesList.append(ReceivedMessageData(message:"K"))
-        messagesList.append(ReceivedMessageData(message: "Lorem ipsum dolor sit amet, co"))
-        messagesList.append(ReceivedMessageData(message: "Ты чего несешь? Говори внятно."))
-        messagesList.append(ReceivedMessageData(message: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec."))
-        messagesList.append(ReceivedMessageData(message: "Swift — открытый мультипарадигмальный компилируемый язык программирования общего назначения. Создан компанией Apple в первую очередь для разработчиков iOS и macOS. Swift работает с фреймворками Cocoa и Cocoa Touch и совместим с основной кодовой базой Apple, написанной на Objective-C. Swift задумывал"))
-            //конец требований тз
-        messagesList.append(ReceivedMessageData(message: dialogLastMessageString))
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
+    }
+     
+    @objc func keyboardWillShow(sender: NSNotification) {
+        if let keyboardFrame: NSValue = sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.view.frame.origin.y -= keyboardHeight
         }
     }
-
-
+    
+    @objc func keyboardWillHide(sender: NSNotification) {
+        if let keyboardFrame: NSValue = sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.view.frame.origin.y += keyboardHeight
+        }
+    }
+    // Заканчивать редактирование текстового поля при нажатии в "пустоту"
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 }

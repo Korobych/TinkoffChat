@@ -190,8 +190,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ca4-ac-Uju">
                                         <rect key="frame" x="0.0" y="617" width="414" height="55"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="Текст сообщения" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JSG-nu-2WL">
-                                                <rect key="frame" x="70" y="12" width="308" height="30"/>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Текст сообщения" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JSG-nu-2WL">
+                                                <rect key="frame" x="70" y="12" width="264" height="30"/>
                                                 <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -200,17 +200,28 @@
                                                 <rect key="frame" x="20" y="11" width="24" height="30"/>
                                                 <state key="normal" image="addMediaToMessage"/>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AKM-tS-Rcb">
+                                                <rect key="frame" x="354" y="12" width="52" height="30"/>
+                                                <state key="normal" title="Send"/>
+                                                <connections>
+                                                    <action selector="sendButtonTapped:" destination="quH-Bm-ase" eventType="touchUpInside" id="2XK-sl-XTw"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="AKM-tS-Rcb" secondAttribute="bottom" constant="13" id="0qX-e7-dWk"/>
                                             <constraint firstItem="JSG-nu-2WL" firstAttribute="leading" secondItem="ca4-ac-Uju" secondAttribute="leading" constant="70" id="3fx-M3-zDI"/>
-                                            <constraint firstAttribute="trailing" secondItem="JSG-nu-2WL" secondAttribute="trailing" constant="36" id="8Il-IO-wlX"/>
+                                            <constraint firstAttribute="trailing" secondItem="JSG-nu-2WL" secondAttribute="trailing" constant="80" id="8Il-IO-wlX"/>
+                                            <constraint firstItem="AKM-tS-Rcb" firstAttribute="leading" secondItem="JSG-nu-2WL" secondAttribute="trailing" constant="20" id="BEX-wX-gH9"/>
                                             <constraint firstItem="JSG-nu-2WL" firstAttribute="top" secondItem="ca4-ac-Uju" secondAttribute="top" constant="12" id="RnG-Dq-cA3"/>
                                             <constraint firstItem="l8B-Gx-FWK" firstAttribute="top" secondItem="ca4-ac-Uju" secondAttribute="top" constant="11" id="XFT-Bq-emb"/>
                                             <constraint firstItem="l8B-Gx-FWK" firstAttribute="leading" secondItem="ca4-ac-Uju" secondAttribute="leading" constant="20" id="dKF-Lh-LKJ"/>
                                             <constraint firstAttribute="height" constant="55" id="vQZ-us-LZv"/>
                                             <constraint firstItem="JSG-nu-2WL" firstAttribute="leading" secondItem="l8B-Gx-FWK" secondAttribute="trailing" constant="26" id="vTK-gB-luJ"/>
+                                            <constraint firstAttribute="trailing" secondItem="AKM-tS-Rcb" secondAttribute="trailing" constant="8" id="vmn-5V-LWp"/>
                                             <constraint firstAttribute="bottom" secondItem="JSG-nu-2WL" secondAttribute="bottom" constant="13" id="x0c-l7-el6"/>
+                                            <constraint firstItem="AKM-tS-Rcb" firstAttribute="top" secondItem="ca4-ac-Uju" secondAttribute="top" constant="12" id="yIA-rc-NGl"/>
                                             <constraint firstAttribute="bottom" secondItem="l8B-Gx-FWK" secondAttribute="bottom" constant="14" id="zm0-iC-Bm7"/>
                                         </constraints>
                                     </view>
@@ -232,7 +243,9 @@
                         <viewLayoutGuide key="safeArea" id="fO0-Tk-0wu"/>
                     </view>
                     <connections>
+                        <outlet property="messageTextFiled" destination="JSG-nu-2WL" id="fbD-Dy-z5I"/>
                         <outlet property="messagesTableView" destination="hE3-cB-k8k" id="waf-cg-zH5"/>
+                        <outlet property="sendButton" destination="AKM-tS-Rcb" id="lvb-O8-IZa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ltb-b4-1Io" userLabel="First Responder" sceneMemberID="firstResponder"/>

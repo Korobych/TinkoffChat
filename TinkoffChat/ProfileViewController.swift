@@ -136,7 +136,6 @@ class OperationDataManager: Operation, DataManager{
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     var imagePicker = UIImagePickerController() // переменная для хранения информации и взаимодействия пользователя с встроенными функциями (использование камеры и галерреи) для использования этих данных программой
-
     
     @IBOutlet weak var nameTextField: UITextField!
     
@@ -406,11 +405,19 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // Изменяем фрейм для удобного редактирования текста
     @objc func keyboardWillShow(sender: NSNotification) {
-        self.view.frame.origin.y -= self.view.frame.origin.y*0.3
+        if let keyboardFrame: NSValue = sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.view.frame.origin.y -= keyboardHeight
+        }
     }
     
     @objc func keyboardWillHide(sender: NSNotification) {
-        self.view.frame.origin.y += self.view.frame.origin.y*0.3
+        if let keyboardFrame: NSValue = sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.view.frame.origin.y += keyboardHeight
+        }
     }
     // Заканчивать редактирование текстового поля при нажатии в "пустоту"
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
