@@ -9,17 +9,17 @@
 import UIKit
 
 protocol MessageCellConfiguration {
-    var text: String? {get set}
+    var text: String {get set}
     var type: String {get set}
 }
 
 class ReceivedMessageData : Codable, MessageCellConfiguration{
     let eventType = "TextMessage"
     let messageId = generateMessageId()
-    var text: String?
+    var text: String
     var type: String
     var date: Date?
-    init(message: String?, type: String) {
+    init(message: String, type: String) {
         self.text = message
         self.type = type
         self.date = Date()
@@ -119,7 +119,7 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
         super.viewDidLoad()
         self.messagesTableView.dataSource = self
         self.messagesTableView.delegate = self
-        self.communicationManager.communicationManagerDelegate = self
+        self.communicationManager.dialogDelegate = self
         navigationItem.title = self.dialogPersonNameString
         NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)

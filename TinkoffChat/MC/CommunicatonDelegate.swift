@@ -26,11 +26,11 @@ protocol CommunicationManagerDelegate: class {
 }
 
 class CommunicationManager: CommunicatorDelegate {
-    weak var communicationManagerDelegate:CommunicationManagerDelegate?
+    weak var communicationManagerDelegate: CommunicationManagerDelegate?
     weak var dialogDelegate: CommunicationManagerDelegate?
     var communicator = MultipeerCommunicator()
-    var onlineDialogs = [DialogCustomOnlineCellData]()
-    var offlineDialogs = [DialogCustomOfflineCellData]()
+    var onlineDialogs: [DialogCustomOnlineCellData] = []
+    var offlineDialogs: [DialogCustomOfflineCellData] = []
     var online: Bool = false {
         didSet {
             if online {
@@ -46,9 +46,12 @@ class CommunicationManager: CommunicatorDelegate {
             if success {
                 dialog.messagesStore.append(ReceivedMessageData(message: text, type: "outgoing"))
             }
+            DispatchQueue.main.async {
             successHadler?(success)
-            if success{
-                self.dialogDelegate?.reloadAfterChange()
+                if success{
+                    self.dialogDelegate?.reloadAfterChange()
+                    self.communicationManagerDelegate?.reloadAfterChange()
+                }
             }
         })
     }
@@ -75,7 +78,6 @@ class CommunicationManager: CommunicatorDelegate {
         for (index, dialog) in onlineDialogs.enumerated() {
             if dialog.userID == userID {
                 lostUserIndex = index
-
                 break
             }
         }
@@ -102,6 +104,7 @@ class CommunicationManager: CommunicatorDelegate {
         for dialog in onlineDialogs {
             if dialog.userID == fromUser {
                 foundDialog = dialog
+                
             }
         foundDialog?.messagesStore.append(newMessage)
         foundDialog?.hasUnreadMessages = true

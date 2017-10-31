@@ -45,7 +45,7 @@ class DialogCustomCell: UITableViewCell {
                 dialogPartnerLastMessageLabel.font = UIFont.boldSystemFont(ofSize: 15)
             } else
             {
-                dialogPartnerLastMessageLabel.font = UIFont(name: "System", size: 14)
+                dialogPartnerLastMessageLabel.font = UIFont(name: "HelveticaNeue-LightItalic", size: 14)
             }
             dialogPartnerLastMessageLabel.text = message
         }

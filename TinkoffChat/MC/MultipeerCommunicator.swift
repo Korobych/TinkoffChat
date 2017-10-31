@@ -52,7 +52,10 @@ class MultipeerCommunicator: NSObject, MCNearbyServiceBrowserDelegate, MCNearbyS
     }
     
     override init() {
-        myPeerID = MCPeerID(displayName: (UIDevice.current.identifierForVendor?.description)!)
+        guard let idForVendor = UIDevice.current.identifierForVendor else {
+            fatalError("Current device has no identifierForVendor")
+        }
+        myPeerID = MCPeerID(displayName: idForVendor.description)
         browser = MCNearbyServiceBrowser(peer: myPeerID, serviceType: serviceType)
         advertiser = MCNearbyServiceAdvertiser(peer: myPeerID, discoveryInfo: ["userName": MultipeerCommunicator.readUserName()], serviceType: serviceType)
 
@@ -104,7 +107,7 @@ class MultipeerCommunicator: NSObject, MCNearbyServiceBrowserDelegate, MCNearbyS
         do {
             let message = try JSONDecoder().decode(ReceivedMessageData.self, from: data)
             message.type = "incoming"
-            delegate?.didReceiveMessage(text: message.text!, fromUser: peerID.displayName, toUser: myPeerID.displayName)
+            delegate?.didReceiveMessage(text: message.text, fromUser: peerID.displayName, toUser: myPeerID.displayName)
             } catch {
                 return
             }
@@ -133,7 +136,7 @@ class MultipeerCommunicator: NSObject, MCNearbyServiceBrowserDelegate, MCNearbyS
             let discoveryInfo = ["userName": MultipeerCommunicator.readUserName()]
             let data = try JSONEncoder().encode(discoveryInfo)
             encodedContext = data
-            browser.invitePeer(peerID, to: session, withContext: encodedContext, timeout: 5)
+            browser.invitePeer(peerID, to: session, withContext: encodedContext, timeout: 0)
             print(sessionsDict.count)
         }
         catch {
@@ -154,13 +157,25 @@ class MultipeerCommunicator: NSObject, MCNearbyServiceBrowserDelegate, MCNearbyS
         sessionsDict[peerID] = session
         invitationHandler(true, session)
         // Логика вытаскивания discoveryInfo
-        let userInfo: String
-        do{
-            userInfo = (try JSONDecoder().decode([String:String].self, from: context!)["userName"])!
-            usernamesDict[peerID] = userInfo
+        //тут летит !!! фиксим анврап
+        if let username = decodeUsernameFromInvitationContext(from: context) {
+            usernamesDict[peerID] = username
         }
-        catch{
-            print("can't read discoveryInfo")
+        
+    }
+        
+    func decodeUsernameFromInvitationContext(from data: Data?) -> String? {
+        // get username or nil from invitationContext when someone invites to session
+        guard let fromData = data else { return nil }
+        do {
+            let username = try JSONDecoder().decode([String:String].self, from: fromData)["userName"]
+            if username != nil {
+                return username
+            } else {
+                return nil
+            }
+        } catch {
+            return nil
         }
     }
 }

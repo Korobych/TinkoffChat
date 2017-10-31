@@ -30,15 +30,11 @@ class DialogCustomOnlineCellData : ConversationCellConfiguration{
     var online = true
     var hasUnreadMessages: Bool
     
-    init(userID: String?, name: String?, hasUnreadMessages: Bool, messagesStore :[ReceivedMessageData] = [] ) {
+    init(userID: String?, name: String?, hasUnreadMessages: Bool = false, messagesStore :[ReceivedMessageData] = [] ) {
         self.userID = userID
         self.name = name
         self.messagesStore = messagesStore
         self.hasUnreadMessages = hasUnreadMessages
-        // Экстра - не в тз! Квик фикс на случай отсутствия сообщения, при том что флаг пропущенного сообещния и его дата (вдруг) появятся среди данных (?)
-//        if messagesStore.count == 0{
-//            self.hasUnreadMessages = false
-//        }
     }
 }
 // класс ячейки оффлайн - History
@@ -125,8 +121,12 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath) as! DialogCustomCell
         if indexPath.section == 0{
-            let dialogData = communicationManager.onlineDialogs[indexPath.row]
-            cell.setupCell(name: dialogData.name, message: dialogData.lastMessage, date: dialogData.date, online: dialogData.online, unread: dialogData.hasUnreadMessages)
+            let dialogData: DialogCustomOnlineCellData?
+            dialogData = communicationManager.onlineDialogs[indexPath.row]
+            guard let data = dialogData else{
+                print("error")
+            }
+            cell.setupCell(name: data.name, message: data.lastMessage, date: data.date, online: data.online, unread: data.hasUnreadMessages)
             cell.backgroundColor = UIColor.yellow.withAlphaComponent(0.4)
         }
         return cell
