@@ -10,132 +10,16 @@ import UIKit
 import Photos
 import AVFoundation
 
-//Исключение для реализации фичи вызова уведомлений (алёртов) из других классов. Ориентир на вехнюю вьюшку
-extension UIApplication {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate{
     
-    static func topViewController(base: UIViewController? = UIApplication.shared.delegate?.window??.rootViewController) -> UIViewController? {
-        if let nav = base as? UINavigationController {
-            return topViewController(base: nav.visibleViewController)
-        }
-        if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
-            return topViewController(base: selected)
-        }
-        if let presented = base?.presentedViewController {
-            return topViewController(base: presented)
-        }
-        
-        return base
+    enum ProfileSaveType {
+        case GCD
+        case Operation
     }
-}
-// протокол для сохранения данных пользователя
-protocol DataManager {
-    var personName: String {get set}
-    var infoMessage: String {get set}
-    var picture: UIImage {get set}
-
-    func setupData()
-}
-//Класс для выполнения таска сохранения используя GCD (под протоколом)
-class GCDDataManager : DataManager{
-    var personName: String
-    var infoMessage: String
-    var picture: UIImage
-    
-    init(personName: String, infoMessage: String, picture: UIImage) {
-        self.personName = personName
-        self.infoMessage = infoMessage
-        self.picture = picture
-    }
-    // сама логика сохранения
-    func setupData(){
-        let queue = DispatchQueue.global(qos: .userInitiated)
-        let filePath = "person.txt"
-        queue.async{
-            if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-                let fileURL = dir.appendingPathComponent(filePath)
-                do {
-                    let imageData = UIImagePNGRepresentation(self.picture)! as NSData
-                    // используем base64
-                    let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
-                    let inputString = self.personName + ";" + self.infoMessage + ";" + strBase64
-                    try inputString.write(to: fileURL, atomically: false, encoding: .utf8)
-                    let completionAlert  = UIAlertController(title: "Данные сохранены", message: nil , preferredStyle: .alert)
-                    completionAlert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
-                    // запуск уведомления о удачном сохранении
-                    UIApplication.topViewController()?.present(completionAlert, animated: true, completion: nil)
-                    
-                }
-                catch{
-                    let errorAlert  = UIAlertController(title: "Ошибка", message: "Не удалось сохранить данные", preferredStyle: .alert)
-                    errorAlert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
-                    errorAlert.addAction(UIAlertAction(title: "Повторить", style: .default, handler: self.myErrorHandler))
-                    // запуск уведомления о неудачном сохранении
-                    UIApplication.topViewController()?.present(errorAlert, animated: true, completion: nil)
-                    
-                }
-            }
-        }
-        
-    }
-    // вызов из алёрта при нажатии на Повторить. Срабатывает при ошибке сохранения
-    func myErrorHandler(alert: UIAlertAction){
-        setupData()
-    }
-}
-//Класс для выполнения таска сохранения с использованием Operations (под протоколом)
-class OperationDataManager: Operation, DataManager{
-    var personName: String
-    var infoMessage: String
-    var picture: UIImage
-    
-    init(personName: String, infoMessage: String, picture: UIImage) {
-        self.personName = personName
-        self.infoMessage = infoMessage
-        self.picture = picture
-    }
-    
-    override func main() {
-        if self.isCancelled {
-            return
-        }
-        setupData()
-        if self.isCancelled {
-            return
-        }
-        
-    }
-    
-    func setupData() {
-        let filePath = "person.txt"
-        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let fileURL = dir.appendingPathComponent(filePath)
-            do {
-                let imageData = UIImagePNGRepresentation(self.picture)! as NSData
-                let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
-                let inputString = self.personName + ";" + self.infoMessage + ";" + strBase64
-                try inputString.write(to: fileURL, atomically: false, encoding: .utf8)
-                let completionAlert  = UIAlertController(title: "Данные сохранены", message: nil , preferredStyle: .alert)
-                completionAlert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
-                UIApplication.topViewController()?.present(completionAlert, animated: true, completion: nil)
-            }
-            catch{
-                let errorAlert  = UIAlertController(title: "Ошибка", message: "Не удалось сохранить данные", preferredStyle: .alert)
-                errorAlert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
-                errorAlert.addAction(UIAlertAction(title: "Повторить", style: .default, handler: myErrorHandler))
-                UIApplication.topViewController()?.present(errorAlert, animated: true, completion: nil)
-                
-            }
-        }
-    }
-    func myErrorHandler(alert: UIAlertAction){
-        setupData()
-    }
-    
-}
-
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     var imagePicker = UIImagePickerController() // переменная для хранения информации и взаимодействия пользователя с встроенными функциями (использование камеры и галерреи) для использования этих данных программой
+    var lastProfileSave: ProfileSaveType = .GCD
+    var model: ProfileModelProtocol = ProfileModel()
     
     @IBOutlet weak var nameTextField: UITextField!
     
@@ -156,6 +40,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         imagePicker.delegate = self
         nameTextField.delegate = self
         infoTextView.delegate = self
+        model.delegate = self
+        model.getProfileInfo()
         //
         gcdButton.layer.cornerRadius = 10
         gcdButton.layer.borderWidth = 2
@@ -180,50 +66,80 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePic.layer.cornerRadius = profilePic.bounds.size.width * 0.25
         profilePic.clipsToBounds = true
         //Загрузка данных из файла и их моментальная загрузка на вью.
-        DispatchQueue.main.async {
-            if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-                let filePath = "person.txt"
-                let fileURL = dir.appendingPathComponent(filePath)
-                do {
-                    let readString = try String(contentsOf: fileURL, encoding: .utf8)
-                    let lines : [String] = readString.components(separatedBy: ";")
-                    let dataDecoded : Data = Data(base64Encoded: lines[2], options: .ignoreUnknownCharacters)!
-                    let decodedimage = UIImage(data: dataDecoded)
-                    self.nameTextField.text = lines[0]
-                    self.infoTextView.text = lines[1]
-                    self.profilePic.image = decodedimage
-                }
-                catch{
-                    print("read person.txt error")
-                }
-            }
-        }
+        /// !!!!
+//        DispatchQueue.main.async {
+//            if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+//                let filePath = "person.txt"
+//                let fileURL = dir.appendingPathComponent(filePath)
+//                do {
+//                    let readString = try String(contentsOf: fileURL, encoding: .utf8)
+//                    let lines : [String] = readString.components(separatedBy: ";")
+//                    let dataDecoded : Data = Data(base64Encoded: lines[2], options: .ignoreUnknownCharacters)!
+//                    let decodedimage = UIImage(data: dataDecoded)
+//                    self.nameTextField.text = lines[0]
+//                    self.infoTextView.text = lines[1]
+//                    self.profilePic.image = decodedimage
+//                }
+//                catch{
+//                    print("read person.txt error")
+//                }
+//            }
+//        }
     }
     // Прожим на кнопку GCD
     @IBAction func gcdSavingProcessClick(_ sender: Any) {
-        dataSavingActivityIndicator.isHidden = false
-        dataSavingActivityIndicator.startAnimating()
-        let data = GCDDataManager(personName: nameTextField.text!, infoMessage: infoTextView.text, picture: profilePic.image!)
+//        dataSavingActivityIndicator.isHidden = false
+//        dataSavingActivityIndicator.startAnimating()
+//        let data = GCDDataManager(personName: nameTextField.text!, infoMessage: infoTextView.text, picture: profilePic.image!)
+//        gcdButton.isEnabled = false
+//        operationButton.isEnabled = false
+//        gcdButton.alpha = 0.5
+//        operationButton.alpha = 0.5
+//        DispatchQueue.main.async {
+//            data.setupData()
+//            self.dataSavingActivityIndicator.stopAnimating()
+//        }
+
         gcdButton.isEnabled = false
         operationButton.isEnabled = false
         gcdButton.alpha = 0.5
         operationButton.alpha = 0.5
-        DispatchQueue.main.async {
-            data.setupData()
-            self.dataSavingActivityIndicator.stopAnimating()
-        }
+        dataSavingActivityIndicator.isHidden = false
+        dataSavingActivityIndicator.startAnimating()
+        lastProfileSave = .GCD
+        saveProfile(saveType: .GCD)
     }
     //Прожим на кнопку Operation
     @IBAction func operationSavingProcessClick(_ sender: Any) {
-        let operationQueue = OperationQueue()
-        dataSavingActivityIndicator.isHidden = false
-        dataSavingActivityIndicator.startAnimating()
+//        let operationQueue = OperationQueue()
+//        dataSavingActivityIndicator.isHidden = false
+//        dataSavingActivityIndicator.startAnimating()
+//        gcdButton.isEnabled = false
+//        operationButton.isEnabled = false
+//        gcdButton.alpha = 0.5
+//        operationButton.alpha = 0.5
+//        operationQueue.addOperation(OperationDataManager(personName: nameTextField.text!, infoMessage: infoTextView.text, picture: profilePic.image!))
+//        self.dataSavingActivityIndicator.stopAnimating()
+        
         gcdButton.isEnabled = false
         operationButton.isEnabled = false
         gcdButton.alpha = 0.5
         operationButton.alpha = 0.5
-        operationQueue.addOperation(OperationDataManager(personName: nameTextField.text!, infoMessage: infoTextView.text, picture: profilePic.image!))
-        self.dataSavingActivityIndicator.stopAnimating()
+        dataSavingActivityIndicator.isHidden = false
+        dataSavingActivityIndicator.startAnimating()
+        lastProfileSave = .Operation
+        saveProfile(saveType: .Operation)
+    }
+    
+    func saveProfile(saveType: ProfileSaveType) {
+        switch saveType {
+        case .GCD:
+            model.saveProfileUsingGCD(photo: profilePic.image, name: nameTextField.text, info: infoTextView.text)
+            print("я в функции saveProfile\n")
+        case .Operation:
+            model.saveProfileUsingOperation(photo: profilePic.image, name: nameTextField.text, info: infoTextView.text)
+            print("я в функции saveProfile\n")
+        }
     }
     
     
@@ -251,46 +167,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.present(alertChooseVariantForPhotoMaking, animated: true, completion: nil)
     }
     
-    
-    //Метод, вызывающийся перед появлением view на экране. Уже после viewDidLoad. Перед анимацией.
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    //Метод, вызывающийся после срабатывания viewWillAppear(). После анимации.
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-    
-    //Метод, который вызвается при изменении layout’а view.
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-    }
-    
-    //Метод, который вызвается после расстановки элементов на layout'е. После viewWillLayoutSubviews().
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-    }
-    
-    //Метод, вызывающийся перед исчезновении view на экране. Перед анимацией.
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-    }
-    
-    //Метод, вызывающийся после срабатывания viewWillDisappear(). После анимации.
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-
-    }
 
     //Функция обработки вызова камеры для изменения аватара пользователя
     func openCamera(){
@@ -442,9 +318,71 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         gcdButton.alpha = 1
         operationButton.alpha = 1
     }
-    
-    
-    
 
 }
+
+//Исключение для реализации фичи вызова уведомлений (алёртов) из других классов. Ориентир на верхнюю вьюшку
+extension UIApplication {
+    
+    static func topViewController(base: UIViewController? = UIApplication.shared.delegate?.window??.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
+            return topViewController(base: selected)
+        }
+        if let presented = base?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        
+        return base
+    }
+}
+
+extension ProfileViewController: ProfileModelDelegateProtocol{
+    func didGet(profileViewModel: ProfileViewModel) {
+        nameTextField.text = profileViewModel.name
+        infoTextView.text = profileViewModel.info
+        profilePic.image = profileViewModel.photo
+    }
+    
+    func didFinishSave(success: Bool) {
+        dataSavingActivityIndicator.stopAnimating()
+        
+        if success {
+            displayAlert(title: "Данные успешно сохранены.")
+        } else {
+            let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] _ in
+            self.gcdButton.isEnabled = true
+            self.operationButton.isEnabled = true
+        }
+        let retryAction = UIAlertAction(title: "Повторить", style: .default) { [unowned self] _ in
+            DispatchQueue.main.async {
+                self.gcdButton.isEnabled = false
+                self.operationButton.isEnabled = false
+                self.dataSavingActivityIndicator.startAnimating()
+            }
+            self.saveProfile(saveType: self.lastProfileSave)
+        }
+        displayAlert(title: "Ошибка", message: "Не удалось сохранить данные", firstAction: okAction, secondAction: retryAction)
+        }
+    }
+}
+
+extension ProfileViewController{
+    func displayAlert(title: String? = "Warning", message: String? = nil, firstAction: UIAlertAction? = nil, secondAction: UIAlertAction? = nil) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        if let firstAction = firstAction {
+            alertController.addAction(firstAction)
+        } else {
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(okAction)
+        }
+        if let secondAction = secondAction {
+            alertController.addAction(secondAction)
+        }
+        self.present(alertController, animated: true, completion: nil)
+    }
+}
+
 
