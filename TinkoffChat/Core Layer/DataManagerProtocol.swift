@@ -21,4 +21,5 @@ extension DataManagerProtocol{
         let path = url.appendingPathComponent("ProfileInfo")
         return path.path
     }
+    
 }

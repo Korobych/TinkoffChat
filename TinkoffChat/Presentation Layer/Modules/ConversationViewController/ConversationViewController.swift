@@ -32,10 +32,10 @@ class ReceivedMessageData : Codable, MessageCellConfiguration{
     
 }
 
-class ConversationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CommunicationManagerDelegate {
+class ConversationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CommunicationManagerDelegateProtocol{
     
-    var communicationManager: CommunicationManager!
-    var conversation: DialogCustomOnlineCellData!
+    var communicationManager:  CommunicationManagerProtocol!
+    var conversation: ConversationProtocol!
     //строка с предыдущего экрана с Именем собеседника - идет в тайтл
     var dialogPersonNameString: String?
     //экстра функционал - не используется в тз (для логики очистки экрана диалога при отсутствии сообщений)
@@ -120,10 +120,14 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
         self.messagesTableView.dataSource = self
         self.messagesTableView.delegate = self
         self.communicationManager.dialogDelegate = self
-        navigationItem.title = self.dialogPersonNameString
+
+        navigationItem.title = conversation.name
         NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        messagesTableView.reloadData()
     }
      
     @objc func keyboardWillShow(sender: NSNotification) {

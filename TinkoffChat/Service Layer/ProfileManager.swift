@@ -9,15 +9,15 @@
 import Foundation
 import UIKit
 
-protocol ProfileModelProtocol {
-    weak var delegate: ProfileModelDelegateProtocol? {get set}
+protocol ProfileManagerProtocol {
+    weak var delegate: ProfileManagerDelegateProtocol? {get set}
     func getProfileInfo()
     func saveProfileUsingGCD(photo: UIImage?, name: String?, info: String?)
     func saveProfileUsingOperation(photo: UIImage?, name: String?, info: String?)
     func profileDidChange(photo: UIImage?, name: String?, info: String?) -> Bool
 }
 
-protocol ProfileModelDelegateProtocol: class {
+protocol ProfileManagerDelegateProtocol: class {
     func didGet(profileViewModel: ProfileViewModel)
     func didFinishSave(success: Bool)
 }
@@ -40,10 +40,10 @@ class ProfileViewModel {
     }
 }
 
-class ProfileModel: ProfileModelProtocol {
+class ProfileManager: ProfileManagerProtocol {
     //
     var lastSavedProfile: Profile?
-    weak var delegate: ProfileModelDelegateProtocol?
+    weak var delegate: ProfileManagerDelegateProtocol?
     let profileService: ProfileServiceProtocol = ProfileService()
     //
     func getProfileInfo() {
@@ -81,6 +81,7 @@ class ProfileModel: ProfileModelProtocol {
     }
     
     func profileDidChange(photo: UIImage?, name: String?, info: String?) -> Bool {
+        var checkingFlag: Bool = false
         guard let lastSavedProfile = lastSavedProfile else {
             return true
         }
@@ -89,10 +90,9 @@ class ProfileModel: ProfileModelProtocol {
             !name.isEmpty, !info.isEmpty else {
                 return false
         }
-        // ТУТ ИСПРАВЬ АЛООО
-        return photo != lastSavedProfile.photo ||
-            name != lastSavedProfile.name ||
+        checkingFlag = photo != lastSavedProfile.photo || name != lastSavedProfile.name ||
             info != lastSavedProfile.info
+        return checkingFlag
     }
 }
 

@@ -8,16 +8,9 @@
 
 import UIKit
 
-protocol ConversationCellConfiguration{
-    var userID: String? {get set}
-    var name: String? {get set}
-    var messagesStore: [ReceivedMessageData] {get set}
-    var online: Bool {get set}
-    var hasUnreadMessages: Bool {get set}
-    
-}
+
 // класс ячейки онлайна
-class DialogCustomOnlineCellData : ConversationCellConfiguration{
+class DialogCustomOnlineCellData : ConversationProtocol{
     var userID: String?
     var name: String?
     var lastMessage: String?{
@@ -37,37 +30,15 @@ class DialogCustomOnlineCellData : ConversationCellConfiguration{
         self.hasUnreadMessages = hasUnreadMessages
     }
 }
-// класс ячейки оффлайн - History
-class DialogCustomOfflineCellData : ConversationCellConfiguration{
-    var userID: String?
-    var name: String?
-    var messagesStore: [ReceivedMessageData]
-    var date: Date?
-    var online = false
-    var hasUnreadMessages: Bool
-    
-    init(userID: String?, name: String?, hasUnreadMessages: Bool ) {
-        self.userID = userID
-        self.name = name
-        self.messagesStore = [ReceivedMessageData]()
-        self.date = Date()
-        self.hasUnreadMessages = hasUnreadMessages
-        // Экстра - не в тз! Квик фикс на случай отсутствия сообщения, при том что флаг пропущенного сообещния и его дата (вдруг) появятся среди данных (?)
-        if messagesStore.count == 0{
-            self.hasUnreadMessages = false
-        }
-    }
-}
 
-class ConversationsListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CommunicationManagerDelegate{
+
+class ConversationsListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CommunicationManagerDelegateProtocol{
     
     @IBOutlet weak var dialogsTableView: UITableView!
-    var communicationManager = CommunicationManager()
-//    // строка с именем собеседника, отправляемая в следующий вью контроллер
-    var sendingTitleString: String?
-    // строка с последним сообщением собеседника, отправляемая в следующий вью контроллер
-//    var sendingLastMessageString : String?
-    
+    var communicationManager: CommunicationManagerProtocol = CommunicationManager()
+    let dataManager: DataManagerProtocol = GCDDataManager()
+    var model: ProfileManagerProtocol = ProfileManager()
+
     func reloadAfterChange() {
         DispatchQueue.main.async {
             self.dialogsTableView.reloadData()
@@ -95,7 +66,6 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedDialog = communicationManager.onlineDialogs[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
-        sendingTitleString = selectedDialog.name
         // выполение перехода
         performSegue(withIdentifier: "moveToConversation", sender: selectedDialog)
     }
@@ -103,8 +73,7 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "moveToConversation" {
             let nextViewController = segue.destination as! ConversationViewController
-            nextViewController.dialogPersonNameString = self.sendingTitleString
-            nextViewController.conversation = sender as! DialogCustomOnlineCellData
+            nextViewController.conversation = sender as! ConversationProtocol
             nextViewController.communicationManager = communicationManager
         }
     }
@@ -121,13 +90,15 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath) as! DialogCustomCell
         if indexPath.section == 0{
-            let dialogData: DialogCustomOnlineCellData?
+            let dialogData: ConversationProtocol?
             dialogData = communicationManager.onlineDialogs[indexPath.row]
-            guard let data = dialogData else{
+            if let data = dialogData {
+                cell.setupCell(name: data.name, message: data.lastMessage, date: data.date, online: data.online, unread: data.hasUnreadMessages)
+                cell.backgroundColor = UIColor.yellow.withAlphaComponent(0.4)
+            }
+                else{
                 print("error")
             }
-            cell.setupCell(name: data.name, message: data.lastMessage, date: data.date, online: data.online, unread: data.hasUnreadMessages)
-            cell.backgroundColor = UIColor.yellow.withAlphaComponent(0.4)
         }
         return cell
     }
@@ -138,9 +109,23 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
         self.dialogsTableView.dataSource = self
         self.dialogsTableView.delegate = self
         let dateFormatter = DateFormatter()
-        communicationManager.communicationManagerDelegate = self
-        communicationManager.online = true
-        
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        communicationManager.communicationManagerDelegate = self
+        model.delegate = self
+        model.getProfileInfo()
+    }
+}
+
+extension ConversationsListViewController: ProfileManagerDelegateProtocol{
+
+    
+    func didGet(profileViewModel: ProfileViewModel) {
+        let username = profileViewModel.name
+        communicationManager.displayedName = username
+        communicationManager.online = true
+        }
+    
+    func didFinishSave(success: Bool) {
+        //
     }
 }

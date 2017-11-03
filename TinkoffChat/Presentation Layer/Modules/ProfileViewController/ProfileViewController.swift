@@ -19,7 +19,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     var imagePicker = UIImagePickerController() // переменная для хранения информации и взаимодействия пользователя с встроенными функциями (использование камеры и галерреи) для использования этих данных программой
     var lastProfileSave: ProfileSaveType = .GCD
-    var model: ProfileModelProtocol = ProfileModel()
+    var model: ProfileManagerProtocol = ProfileManager()
     
     @IBOutlet weak var nameTextField: UITextField!
     
@@ -32,6 +32,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var addPhotoButton: UIButton!
     
     @IBOutlet weak var profilePic: UIImageView!
+    
     @IBOutlet weak var dataSavingActivityIndicator: UIActivityIndicatorView!
     
     // Метод, вызывающийся  после того, как вьюшка контроллера была загружена в память.
@@ -65,45 +66,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         addPhotoButton.imageEdgeInsets = UIEdgeInsetsMake(20,20,20,20) // создание отступа картинки от границ
         profilePic.layer.cornerRadius = profilePic.bounds.size.width * 0.25
         profilePic.clipsToBounds = true
-        //Загрузка данных из файла и их моментальная загрузка на вью.
-        /// !!!!
-//        DispatchQueue.main.async {
-//            if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-//                let filePath = "person.txt"
-//                let fileURL = dir.appendingPathComponent(filePath)
-//                do {
-//                    let readString = try String(contentsOf: fileURL, encoding: .utf8)
-//                    let lines : [String] = readString.components(separatedBy: ";")
-//                    let dataDecoded : Data = Data(base64Encoded: lines[2], options: .ignoreUnknownCharacters)!
-//                    let decodedimage = UIImage(data: dataDecoded)
-//                    self.nameTextField.text = lines[0]
-//                    self.infoTextView.text = lines[1]
-//                    self.profilePic.image = decodedimage
-//                }
-//                catch{
-//                    print("read person.txt error")
-//                }
-//            }
-//        }
     }
     // Прожим на кнопку GCD
     @IBAction func gcdSavingProcessClick(_ sender: Any) {
-//        dataSavingActivityIndicator.isHidden = false
-//        dataSavingActivityIndicator.startAnimating()
-//        let data = GCDDataManager(personName: nameTextField.text!, infoMessage: infoTextView.text, picture: profilePic.image!)
-//        gcdButton.isEnabled = false
-//        operationButton.isEnabled = false
-//        gcdButton.alpha = 0.5
-//        operationButton.alpha = 0.5
-//        DispatchQueue.main.async {
-//            data.setupData()
-//            self.dataSavingActivityIndicator.stopAnimating()
-//        }
-
+        
         gcdButton.isEnabled = false
         operationButton.isEnabled = false
         gcdButton.alpha = 0.5
         operationButton.alpha = 0.5
+        self.view.endEditing(true)
         dataSavingActivityIndicator.isHidden = false
         dataSavingActivityIndicator.startAnimating()
         lastProfileSave = .GCD
@@ -111,20 +82,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     //Прожим на кнопку Operation
     @IBAction func operationSavingProcessClick(_ sender: Any) {
-//        let operationQueue = OperationQueue()
-//        dataSavingActivityIndicator.isHidden = false
-//        dataSavingActivityIndicator.startAnimating()
-//        gcdButton.isEnabled = false
-//        operationButton.isEnabled = false
-//        gcdButton.alpha = 0.5
-//        operationButton.alpha = 0.5
-//        operationQueue.addOperation(OperationDataManager(personName: nameTextField.text!, infoMessage: infoTextView.text, picture: profilePic.image!))
-//        self.dataSavingActivityIndicator.stopAnimating()
         
         gcdButton.isEnabled = false
         operationButton.isEnabled = false
         gcdButton.alpha = 0.5
         operationButton.alpha = 0.5
+        self.view.endEditing(true)
         dataSavingActivityIndicator.isHidden = false
         dataSavingActivityIndicator.startAnimating()
         lastProfileSave = .Operation
@@ -339,7 +302,7 @@ extension UIApplication {
     }
 }
 
-extension ProfileViewController: ProfileModelDelegateProtocol{
+extension ProfileViewController: ProfileManagerDelegateProtocol{
     func didGet(profileViewModel: ProfileViewModel) {
         nameTextField.text = profileViewModel.name
         infoTextView.text = profileViewModel.info

@@ -8,56 +8,41 @@
 
 import Foundation
 
-protocol CommunicatorDelegate : class {
-    // discovering
-    func didFoundUser(userID: String, userName: String?)
-    func didLostUser(userID: String)
-    
-    // errors
-    func failedToStartBrowsingForUsers(error: Error)
-    func failedToStartAdvertising(error: Error)
-    
-    //messages
-    func didReceiveMessage(text: String, fromUser: String, toUser: String)
-}
+class CommunicationManager: CommunicationManagerProtocol, CommunicatorDelegateProtocol  {
 
-protocol CommunicationManagerDelegate: class {
-    func reloadAfterChange()
-}
-
-class CommunicationManager: CommunicatorDelegate {
-    weak var communicationManagerDelegate: CommunicationManagerDelegate?
-    weak var dialogDelegate: CommunicationManagerDelegate?
-    var communicator = MultipeerCommunicator()
-    var onlineDialogs: [DialogCustomOnlineCellData] = []
-    var offlineDialogs: [DialogCustomOfflineCellData] = []
+    weak var communicationManagerDelegate: CommunicationManagerDelegateProtocol?
+    weak var dialogDelegate: CommunicationManagerDelegateProtocol?
+    var displayedName: String {
+        didSet { communicator.displayedName = displayedName
+        }
+    }
+    private var communicator: CommunicatorProtocol = MultipeerCommunicator()
+    public private(set) var onlineDialogs: [ConversationProtocol] = []
+    public private(set) var offlineDialogs: [ConversationProtocol] = []
     var online: Bool = false {
         didSet {
-            if online {
-                communicator.online = true
-            } else {
-                communicator.online = false
-            }
+            communicator.online = online
         }
     }
     
-    func sendMessageToDialog(dialog: DialogCustomOnlineCellData, text: String, successHadler: ((Bool) -> ())?) {
+    init() {
+        displayedName = communicator.displayedName
+        communicator.delegate = self
+    }
+    
+    func sendMessageToDialog(dialog: ConversationProtocol, text: String, successHadler: ((Bool) -> ())?) {
         communicator.sendMessage(string: text, to: dialog.userID!, completionHandler: { (success, error) in
             if success {
                 dialog.messagesStore.append(ReceivedMessageData(message: text, type: "outgoing"))
             }
             DispatchQueue.main.async {
-            successHadler?(success)
+                successHadler?(success)
                 if success{
                     self.dialogDelegate?.reloadAfterChange()
                     self.communicationManagerDelegate?.reloadAfterChange()
                 }
             }
         })
-    }
-    
-    init() {
-        communicator.delegate = self
     }
     
     func didFoundUser(userID: String, userName: String?) {
@@ -67,26 +52,28 @@ class CommunicationManager: CommunicatorDelegate {
                 return
             }
         }
-        onlineDialogs.append(DialogCustomOnlineCellData(userID: userID, name: userName, hasUnreadMessages: true))
+        let dialogNew = DialogCustomOnlineCellData(userID: userID, name: userName, hasUnreadMessages: true)
+        onlineDialogs.append(dialogNew)
         DispatchQueue.main.async {
             self.communicationManagerDelegate?.reloadAfterChange()
         }
     }
     //Логика обработки потери юзера
     func didLostUser(userID: String) {
-        var lostUserIndex: Int = 0
+        var lostUserIndex: Int?
         for (index, dialog) in onlineDialogs.enumerated() {
             if dialog.userID == userID {
                 lostUserIndex = index
                 break
             }
         }
-        // опцианально
-        onlineDialogs[lostUserIndex].online = false
-        onlineDialogs.remove(at: lostUserIndex)
-        DispatchQueue.main.async {
-            self.communicationManagerDelegate?.reloadAfterChange()
-            self.dialogDelegate?.reloadAfterChange()
+        if let lostUserIndex = lostUserIndex {
+            onlineDialogs[lostUserIndex].online = false
+            onlineDialogs.remove(at: lostUserIndex)
+            DispatchQueue.main.async {
+                self.communicationManagerDelegate?.reloadAfterChange()
+                self.dialogDelegate?.reloadAfterChange()
+            }
         }
     }
     
@@ -99,20 +86,20 @@ class CommunicationManager: CommunicatorDelegate {
     }
     
     func didReceiveMessage(text: String, fromUser: String, toUser: String) {
-        var foundDialog: DialogCustomOnlineCellData?
+        var foundDialog: ConversationProtocol? = nil
         let newMessage = ReceivedMessageData(message: text, type: "incoming")
         for dialog in onlineDialogs {
             if dialog.userID == fromUser {
                 foundDialog = dialog
-                
+                break
             }
+        }
         foundDialog?.messagesStore.append(newMessage)
         foundDialog?.hasUnreadMessages = true
             DispatchQueue.main.async {
                 self.communicationManagerDelegate?.reloadAfterChange()
                 self.dialogDelegate?.reloadAfterChange()
             }
-        }
     }
 
 }

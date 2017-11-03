@@ -9,27 +9,55 @@
 import Foundation
 import MultipeerConnectivity
 
-class MultipeerCommunicator: NSObject, MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate, MCSessionDelegate, Communicator {
+class MultipeerCommunicator: NSObject, CommunicatorProtocol, MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate, MCSessionDelegate{
 
-    let myPeerID: MCPeerID
-    let advertiser: MCNearbyServiceAdvertiser
-    let browser: MCNearbyServiceBrowser
-    var usernamesDict: [MCPeerID: String] = [:]
-    var sessionsDict: [MCPeerID: MCSession] = [:]
-    let serviceType = "tinkoff-chat"
+    var displayedName: String = UIDevice.current.name {
+        didSet {
+            online = false
+            online = true
+        }
+    }
     
-    weak var delegate: CommunicatorDelegate?
+    let myPeerID: MCPeerID
+    private var advertiser: MCNearbyServiceAdvertiser?
+    private var browser: MCNearbyServiceBrowser?
+    private var usernamesDict: [MCPeerID: String] = [:]
+    private var sessionsDict: [MCPeerID: MCSession] = [:]
+    private let serviceType = "tinkoff-chat"
+    
+    weak var delegate: CommunicatorDelegateProtocol?
     var online: Bool = false {
         didSet {
-            if online {
-                advertiser.startAdvertisingPeer()
-                browser.startBrowsingForPeers()
-            } else
-            {
-                advertiser.stopAdvertisingPeer()
-                browser.startBrowsingForPeers()
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.reinit()
             }
         }
+    }
+    
+    func reinit() {
+        if online {
+            browser = MCNearbyServiceBrowser(peer: myPeerID, serviceType: serviceType)
+            advertiser = MCNearbyServiceAdvertiser(peer: myPeerID, discoveryInfo: ["userName": displayedName], serviceType: serviceType)
+            browser?.delegate = self
+            advertiser?.delegate = self
+            browser?.startBrowsingForPeers()
+            advertiser?.startAdvertisingPeer()
+        } else {
+            browser?.stopBrowsingForPeers()
+            advertiser?.stopAdvertisingPeer()
+            browser = nil
+            advertiser = nil
+        }
+    }
+    
+    override init() {
+        //
+        guard let idForVendor = UIDevice.current.identifierForVendor
+            else {
+                fatalError("How it could be?? No identifier for vendor!!")
+            }
+        myPeerID = MCPeerID(displayName: idForVendor.description)
+        super.init()
     }
     
     func sendMessage(string: String, to userID: String, completionHandler: ((Bool, Error?) -> ())?) {
@@ -43,7 +71,9 @@ class MultipeerCommunicator: NSObject, MCNearbyServiceBrowserDelegate, MCNearbyS
         if let peerID = peerID {
             let message = ReceivedMessageData(message: string, type: "outgoing")
             do {
-                try sessionsDict[peerID]!.send(JSONEncoder().encode(message), toPeers: [peerID], with: .reliable)
+                let session = sessionsDict[peerID]
+                
+                try session?.send(JSONEncoder().encode(message), toPeers: [peerID], with: .reliable)
                 completionHandler?(true, nil)
             } catch {
                 completionHandler?(false, error)
@@ -51,35 +81,6 @@ class MultipeerCommunicator: NSObject, MCNearbyServiceBrowserDelegate, MCNearbyS
         }
     }
     
-    override init() {
-        guard let idForVendor = UIDevice.current.identifierForVendor else {
-            fatalError("Current device has no identifierForVendor")
-        }
-        myPeerID = MCPeerID(displayName: idForVendor.description)
-        browser = MCNearbyServiceBrowser(peer: myPeerID, serviceType: serviceType)
-        advertiser = MCNearbyServiceAdvertiser(peer: myPeerID, discoveryInfo: ["userName": MultipeerCommunicator.readUserName()], serviceType: serviceType)
-
-        super.init()
-            advertiser.delegate = self
-            browser.delegate = self
-        }
-    
-    static func readUserName() -> String{
-        var userName = UIDevice.current.name
-        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let filePath = "person.txt"
-            let fileURL = dir.appendingPathComponent(filePath)
-            do {
-                let readString = try String(contentsOf: fileURL, encoding: .utf8)
-                let lines : [String] = readString.components(separatedBy: ";")
-                userName = lines[0]
-            }
-            catch{
-                print("error reading person.txt file, UIDevice name set down")
-            }
-        }
-        return userName
-    }
     
     // Session set up
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -133,11 +134,10 @@ class MultipeerCommunicator: NSObject, MCNearbyServiceBrowserDelegate, MCNearbyS
         usernamesDict[peerID] = userInfo
         // Логика обёртки discoveryInfo в Data
         do {
-            let discoveryInfo = ["userName": MultipeerCommunicator.readUserName()]
+            let discoveryInfo = ["userName": displayedName]
             let data = try JSONEncoder().encode(discoveryInfo)
             encodedContext = data
             browser.invitePeer(peerID, to: session, withContext: encodedContext, timeout: 0)
-            print(sessionsDict.count)
         }
         catch {
             print("can't read discoveryInfo")
@@ -158,13 +158,13 @@ class MultipeerCommunicator: NSObject, MCNearbyServiceBrowserDelegate, MCNearbyS
         invitationHandler(true, session)
         // Логика вытаскивания discoveryInfo
         //тут летит !!! фиксим анврап
-        if let username = decodeUsernameFromInvitationContext(from: context) {
+        if let username = decodePersonInfo(from: context) {
             usernamesDict[peerID] = username
         }
         
     }
         
-    func decodeUsernameFromInvitationContext(from data: Data?) -> String? {
+    func decodePersonInfo(from data: Data?) -> String? {
         // get username or nil from invitationContext when someone invites to session
         guard let fromData = data else { return nil }
         do {

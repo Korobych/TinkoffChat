@@ -23,7 +23,7 @@ class Profile: NSObject, NSCoding {
     
     override init() {
         photo = #imageLiteral(resourceName: "placeholder-user")
-        name = "Serg Korobin"
+        name = "Sergio Korobin"
         info = "Readhead programmer. Swift is my passion. :D"
     }
     
