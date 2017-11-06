@@ -9,8 +9,7 @@
 import Foundation
 import UIKit
 
-
-class Profile: NSObject, NSCoding {
+class Profile: NSObject, NSCoding{
     enum Parts {
         static let photo = "photo"
         static let name = "name"
@@ -23,14 +22,14 @@ class Profile: NSObject, NSCoding {
     
     override init() {
         photo = #imageLiteral(resourceName: "placeholder-user")
-        name = "Sergio Korobin"
-        info = "Readhead programmer. Swift is my passion. :D"
+        name = "Name"
+        info = "Info"
     }
     
-    init(photo: UIImage, name: String, info: String) {
-        self.photo = photo
-        self.name = name
-        self.info = info
+    init(photo: UIImage?, name: String?, info: String?) {
+        self.photo = photo ?? #imageLiteral(resourceName: "placeholder-user")
+        self.name = name ?? "Sergio Korobin"
+        self.info = info ?? "Readhead programmer. Swift is my passion. :D"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -42,7 +41,7 @@ class Profile: NSObject, NSCoding {
         self.name = name
         self.info = info
     }
-    
+
     func encode(with aCoder: NSCoder) {
         aCoder.encode(name, forKey: Parts.name)
         aCoder.encode(photo, forKey: Parts.photo)

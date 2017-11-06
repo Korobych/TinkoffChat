@@ -15,11 +15,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     enum ProfileSaveType {
         case GCD
         case Operation
+        case CoreData
     }
     
     var imagePicker = UIImagePickerController() // переменная для хранения информации и взаимодействия пользователя с встроенными функциями (использование камеры и галерреи) для использования этих данных программой
-    var lastProfileSave: ProfileSaveType = .GCD
-    var model: ProfileManagerProtocol = ProfileManager()
+    var lastProfileSave: ProfileSaveType = .CoreData
+    private var model: ProfileManagerProtocol = ProfileManager()
     
     @IBOutlet weak var nameTextField: UITextField!
     
@@ -28,6 +29,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var gcdButton: UIButton!
     
     @IBOutlet weak var operationButton: UIButton!
+    
+    @IBOutlet weak var coreDataButton: UIButton!
     
     @IBOutlet weak var addPhotoButton: UIButton!
     
@@ -43,6 +46,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         infoTextView.delegate = self
         model.delegate = self
         model.getProfileInfo()
+        
+        print(lastProfileSave)
         //
         gcdButton.layer.cornerRadius = 10
         gcdButton.layer.borderWidth = 2
@@ -50,8 +55,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         //
         gcdButton.isEnabled = false
         operationButton.isEnabled = false
+        coreDataButton.isEnabled = false
         gcdButton.alpha = 0.5
         operationButton.alpha = 0.5
+        coreDataButton.alpha = 0.5
         // Подпись на эвенты, в которых при вылете клавиатуры мы будем двигать фрейм. Для удобства заполнения данных в текстовых ячейках
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -60,6 +67,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         operationButton.layer.cornerRadius = 10
         operationButton.layer.borderWidth = 2
         operationButton.layer.borderColor = UIColor.black.cgColor
+        //
+        coreDataButton.layer.cornerRadius = 10
+        coreDataButton.layer.borderWidth = 2
+        coreDataButton.layer.borderColor = UIColor.black.cgColor
+        //
         addPhotoButton.layer.cornerRadius = addPhotoButton.bounds.size.width * 0.5
         addPhotoButton.layer.backgroundColor = UIColor(hue: 0.6111, saturation: 0.73, brightness: 0.94, alpha: 1.0).cgColor // разложенный цвет #3f78f0
         addPhotoButton.tintColor = UIColor.white
@@ -72,8 +84,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         gcdButton.isEnabled = false
         operationButton.isEnabled = false
+        coreDataButton.isEnabled = false
         gcdButton.alpha = 0.5
         operationButton.alpha = 0.5
+        coreDataButton.alpha = 0.5
         self.view.endEditing(true)
         dataSavingActivityIndicator.isHidden = false
         dataSavingActivityIndicator.startAnimating()
@@ -85,8 +99,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         gcdButton.isEnabled = false
         operationButton.isEnabled = false
+        coreDataButton.isEnabled = false
         gcdButton.alpha = 0.5
         operationButton.alpha = 0.5
+        coreDataButton.alpha = 0.5
         self.view.endEditing(true)
         dataSavingActivityIndicator.isHidden = false
         dataSavingActivityIndicator.startAnimating()
@@ -94,14 +110,28 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         saveProfile(saveType: .Operation)
     }
     
+    @IBAction func coreDataProcessClick(_ sender: Any) {
+        gcdButton.isEnabled = false
+        operationButton.isEnabled = false
+        coreDataButton.isEnabled = false
+        gcdButton.alpha = 0.5
+        operationButton.alpha = 0.5
+        coreDataButton.alpha = 0.5
+        self.view.endEditing(true)
+        dataSavingActivityIndicator.isHidden = false
+        dataSavingActivityIndicator.startAnimating()
+        lastProfileSave = .CoreData
+        saveProfile(saveType: .CoreData)
+    }
+    
     func saveProfile(saveType: ProfileSaveType) {
         switch saveType {
         case .GCD:
             model.saveProfileUsingGCD(photo: profilePic.image, name: nameTextField.text, info: infoTextView.text)
-            print("я в функции saveProfile\n")
         case .Operation:
             model.saveProfileUsingOperation(photo: profilePic.image, name: nameTextField.text, info: infoTextView.text)
-            print("я в функции saveProfile\n")
+        case .CoreData:
+            model.saveProfileUsingCoreData(photo: profilePic.image, name: nameTextField.text, info: infoTextView.text)
         }
     }
     
@@ -223,16 +253,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             profilePic.image = imageEdited
             gcdButton.isEnabled = true
             operationButton.isEnabled = true
+            coreDataButton.isEnabled = true
             gcdButton.alpha = 1
             operationButton.alpha = 1
+            coreDataButton.alpha = 1
         }
         else if let imageOriginal = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
             profilePic.image = imageOriginal
             gcdButton.isEnabled = true
             operationButton.isEnabled = true
+            coreDataButton.isEnabled = true
             gcdButton.alpha = 1
             operationButton.alpha = 1
+            coreDataButton.alpha = 1
         }
         dismiss(animated:true, completion: nil)
     }
@@ -271,15 +305,19 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @objc private func textFieldDidChange(_ textField: UITextField) {
         gcdButton.isEnabled = true
         operationButton.isEnabled = true
+        coreDataButton.isEnabled = true
         gcdButton.alpha = 1
         operationButton.alpha = 1
+        coreDataButton.alpha = 1
     }
      // Логика включения возможности сохранения
     func textViewDidChange(_ textView: UITextView) {
         gcdButton.isEnabled = true
         operationButton.isEnabled = true
+        coreDataButton.isEnabled = true
         gcdButton.alpha = 1
         operationButton.alpha = 1
+        coreDataButton.alpha = 1
     }
 
 }

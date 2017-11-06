@@ -10,7 +10,7 @@ import Foundation
 
 protocol DataManagerProtocol {
     func write(profile: Profile, completion: @escaping (_ success: Bool) -> ())
-    func read(completion: @escaping (_ profile: Profile) -> ())
+    func read(completion: @escaping (_ profile: Profile) -> Void)
 }
 
 //extra property to get fileName
@@ -23,3 +23,4 @@ extension DataManagerProtocol{
     }
     
 }
+

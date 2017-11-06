@@ -355,8 +355,8 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="FvE-eO-rt6">
                                                 <rect key="frame" x="35" y="15" width="344" height="55"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2pe-hu-fsI">
-                                                        <rect key="frame" x="0.0" y="0.0" width="164.66666666666666" height="55"/>
+                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2pe-hu-fsI">
+                                                        <rect key="frame" x="-35" y="0.0" width="0.0" height="55"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                         <state key="normal" title="GCD">
                                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -365,14 +365,24 @@
                                                             <action selector="gcdSavingProcessClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m5L-En-FiV"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cif-OD-Ggk">
-                                                        <rect key="frame" x="179.66666666666663" y="0.0" width="164.33333333333337" height="55"/>
+                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cif-OD-Ggk">
+                                                        <rect key="frame" x="-35" y="0.0" width="0.0" height="55"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                         <state key="normal" title="Operation">
                                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         </state>
                                                         <connections>
                                                             <action selector="operationSavingProcessClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EWw-GZ-SiD"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qib-oJ-ElU">
+                                                        <rect key="frame" x="0.0" y="0.0" width="344" height="55"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                        <state key="normal" title="Core Data">
+                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="coreDataProcessClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dBb-G0-GkS"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -402,6 +412,7 @@
                     </view>
                     <connections>
                         <outlet property="addPhotoButton" destination="gqw-Sq-TFW" id="fHl-es-MAz"/>
+                        <outlet property="coreDataButton" destination="Qib-oJ-ElU" id="Z64-qR-0u3"/>
                         <outlet property="dataSavingActivityIndicator" destination="YSA-Rh-0oI" id="eC7-lm-twH"/>
                         <outlet property="gcdButton" destination="2pe-hu-fsI" id="G0j-Iv-8Z5"/>
                         <outlet property="infoTextView" destination="fRm-Wj-5gQ" id="Bnb-CH-4iW"/>

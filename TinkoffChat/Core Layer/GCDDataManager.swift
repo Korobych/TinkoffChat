@@ -34,8 +34,10 @@ class GCDDataManager: DataManagerProtocol {
                 self.profile = storedData
             }
             DispatchQueue.main.async {
+                print("Профиль прочитался из GCD")
                 completion(self.profile)
             }
         }
     }
 }
+

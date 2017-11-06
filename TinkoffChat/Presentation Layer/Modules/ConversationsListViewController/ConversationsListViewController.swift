@@ -8,36 +8,12 @@
 
 import UIKit
 
-
-// класс ячейки онлайна
-class DialogCustomOnlineCellData : ConversationProtocol{
-    var userID: String?
-    var name: String?
-    var lastMessage: String?{
-        return messagesStore.last?.text
-    }
-    var messagesStore: [ReceivedMessageData]
-    var date: Date?{
-        return messagesStore.last?.date
-    }
-    var online = true
-    var hasUnreadMessages: Bool
-    
-    init(userID: String?, name: String?, hasUnreadMessages: Bool = false, messagesStore :[ReceivedMessageData] = [] ) {
-        self.userID = userID
-        self.name = name
-        self.messagesStore = messagesStore
-        self.hasUnreadMessages = hasUnreadMessages
-    }
-}
-
-
 class ConversationsListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CommunicationManagerDelegateProtocol{
     
     @IBOutlet weak var dialogsTableView: UITableView!
     var communicationManager: CommunicationManagerProtocol = CommunicationManager()
-    let dataManager: DataManagerProtocol = GCDDataManager()
-    var model: ProfileManagerProtocol = ProfileManager()
+    private let dataManager: DataManagerProtocol = GCDDataManager()
+    private var model: ProfileManagerProtocol = ProfileManager()
 
     func reloadAfterChange() {
         DispatchQueue.main.async {

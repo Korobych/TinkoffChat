@@ -14,6 +14,7 @@ protocol ProfileManagerProtocol {
     func getProfileInfo()
     func saveProfileUsingGCD(photo: UIImage?, name: String?, info: String?)
     func saveProfileUsingOperation(photo: UIImage?, name: String?, info: String?)
+    func saveProfileUsingCoreData(photo: UIImage?, name: String?, info: String?)
     func profileDidChange(photo: UIImage?, name: String?, info: String?) -> Bool
 }
 
@@ -75,6 +76,19 @@ class ProfileManager: ProfileManagerProtocol {
         
         let profile = Profile(photo: photo, name: name, info: info)
         profileService.saveProfileUsingOperation(profile) { [weak self] success in
+            self?.delegate?.didFinishSave(success: success)
+            self?.lastSavedProfile = profile
+        }
+    }
+    
+    func saveProfileUsingCoreData(photo: UIImage?, name: String?, info: String?) {
+        guard let photo = photo, let name = name, let info = info else {
+            self.delegate?.didFinishSave(success: false)
+            return
+        }
+        
+        let profile = Profile(photo: photo, name: name, info: info)
+        profileService.saveProfileUsingCoreData(profile) { [weak self] success in
             self?.delegate?.didFinishSave(success: success)
             self?.lastSavedProfile = profile
         }
