@@ -55,7 +55,6 @@ class StorageManager: DataManagerProtocol  {
                 print("can't find current app User")
                 return
             }
-//            print("\(user.name)\n\(user.info)")
             var image = #imageLiteral(resourceName: "placeholder-user")
             if let photo = user.photo {
                 image = UIImage(data: photo as Data)!

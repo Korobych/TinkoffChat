@@ -17,7 +17,7 @@ protocol ProfileServiceProtocol {
 }
 
 class ProfileService: ProfileServiceProtocol {
- //
+    //
     var dataManager: DataManagerProtocol = GCDDataManager()
     //
     let coreDataStack = CoreDataStack()
@@ -40,9 +40,8 @@ class ProfileService: ProfileServiceProtocol {
     }
     
     func saveProfileUsingCoreData(_ profile: Profile, completion: @escaping (_ success: Bool) -> ()) {
-        
-        let storage = StorageManager(withStack: coreDataStack)
-        dataManager = storage
+        //Core Data quick fix
+        dataManager = StorageManager(withStack: coreDataStack)
         print("Зашли в сохранение core data")
         dataManager.write(profile: profile, completion: completion)
     }

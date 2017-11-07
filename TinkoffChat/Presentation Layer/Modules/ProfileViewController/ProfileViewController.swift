@@ -27,7 +27,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var infoTextView: UITextView!
     
     @IBOutlet weak var gcdButton: UIButton!
-    
+    // THOSE BUTTONS ARE HIDDEN NOW
     @IBOutlet weak var operationButton: UIButton!
     
     @IBOutlet weak var coreDataButton: UIButton!
@@ -79,7 +79,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePic.layer.cornerRadius = profilePic.bounds.size.width * 0.25
         profilePic.clipsToBounds = true
     }
-    // Прожим на кнопку GCD
+    //GCD saving (unreachable now)
     @IBAction func gcdSavingProcessClick(_ sender: Any) {
         
         gcdButton.isEnabled = false
@@ -94,7 +94,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         lastProfileSave = .GCD
         saveProfile(saveType: .GCD)
     }
-    //Прожим на кнопку Operation
+    //Operation saving (unreachable now)
     @IBAction func operationSavingProcessClick(_ sender: Any) {
         
         gcdButton.isEnabled = false
@@ -109,7 +109,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         lastProfileSave = .Operation
         saveProfile(saveType: .Operation)
     }
-    
+    //Core Data saving ( the only possible option)
     @IBAction func coreDataProcessClick(_ sender: Any) {
         gcdButton.isEnabled = false
         operationButton.isEnabled = false

@@ -28,7 +28,7 @@ class Profile: NSObject, NSCoding{
     
     init(photo: UIImage?, name: String?, info: String?) {
         self.photo = photo ?? #imageLiteral(resourceName: "placeholder-user")
-        self.name = name ?? "Sergio Korobin"
+        self.name = name ?? "Sergey Korobin"
         self.info = info ?? "Readhead programmer. Swift is my passion. :D"
     }
     
