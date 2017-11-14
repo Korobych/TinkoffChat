@@ -157,7 +157,6 @@ class MultipeerCommunicator: NSObject, CommunicatorProtocol, MCNearbyServiceBrow
         sessionsDict[peerID] = session
         invitationHandler(true, session)
         // Логика вытаскивания discoveryInfo
-        //тут летит !!! фиксим анврап
         if let username = decodePersonInfo(from: context) {
             usernamesDict[peerID] = username
         }

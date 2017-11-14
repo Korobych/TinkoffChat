@@ -27,7 +27,7 @@ class IncomingMessageCustomCell: UITableViewCell {
     func setupCell(message: String?){
         incomingMessageText.text = message
     }
-    // При разработке возникла ошибка при переносе слов, автоматисеские значения ширины срезают кусок текста, ручное установление параметров решает проблему и текст при большом количестве символов выводится адекватно
+    // QUICKFIX: При разработке возникла ошибка при переносе слов, автоматисеские значения ширины срезают кусок текста, ручное установление параметров решает проблему и текст при большом количестве символов выводится адекватно
     func messageCellFixing(){
         if frame.size.width < 250 {
             incomingMessageText.preferredMaxLayoutWidth = 225

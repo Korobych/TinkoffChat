@@ -79,6 +79,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePic.layer.cornerRadius = profilePic.bounds.size.width * 0.25
         profilePic.clipsToBounds = true
     }
+    
     //GCD saving (unreachable now)
     @IBAction func gcdSavingProcessClick(_ sender: Any) {
         
@@ -94,6 +95,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         lastProfileSave = .GCD
         saveProfile(saveType: .GCD)
     }
+    
     //Operation saving (unreachable now)
     @IBAction func operationSavingProcessClick(_ sender: Any) {
         
@@ -135,8 +137,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
     
-    
-    
     //Логика закрытия модального окна профиля
     @IBAction func modalViewClosureInit(_ sender: Any) {
         self.dismiss(animated: true)
@@ -159,7 +159,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         self.present(alertChooseVariantForPhotoMaking, animated: true, completion: nil)
     }
-    
 
     //Функция обработки вызова камеры для изменения аватара пользователя
     func openCamera(){
@@ -292,15 +291,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.view.frame.origin.y += keyboardHeight
         }
     }
+    
     // Заканчивать редактирование текстового поля при нажатии в "пустоту"
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
     // Заканчивать редактирование текстового поля при нажатии на Return
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
+    
     // Логика включения возможности сохранения
     @objc private func textFieldDidChange(_ textField: UITextField) {
         gcdButton.isEnabled = true

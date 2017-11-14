@@ -23,6 +23,7 @@ class DialogCustomOnlineCellData : ConversationProtocol{
     
     init(userID: String?, name: String?, hasUnreadMessages: Bool = false, messagesStore :[ReceivedMessageData] = [] ) {
         self.userID = userID
+        // conversationID: String? TODO
         self.name = name
         self.messagesStore = messagesStore
         self.hasUnreadMessages = hasUnreadMessages

@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 
 protocol CoreDataStackProtocol: class {
+    var mainContext: NSManagedObjectContext? { get }
     var saveContext: NSManagedObjectContext? { get }
     func performSave(context: NSManagedObjectContext, completionHandler: @escaping (Bool)->())
 }
@@ -80,8 +81,8 @@ class CoreDataStack : CoreDataStackProtocol {
         }
     }
     //Main Context
-    private var _mainContext: NSManagedObjectContext?
-    private var mainContext: NSManagedObjectContext? {
+    var _mainContext: NSManagedObjectContext?
+    var mainContext: NSManagedObjectContext? {
         get{
             if _mainContext == nil {
                 let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)

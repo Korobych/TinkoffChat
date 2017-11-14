@@ -41,9 +41,13 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedDialog = communicationManager.onlineDialogs[indexPath.row]
+        // Logic of reading message added (now label unreadMessage would change in
+        // ConversationListViewController and on screen respectively)
+        selectedDialog.hasUnreadMessages = false
         tableView.deselectRow(at: indexPath, animated: true)
-        // выполение перехода
+        // perform segue
         performSegue(withIdentifier: "moveToConversation", sender: selectedDialog)
+        tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -102,6 +106,6 @@ extension ConversationsListViewController: ProfileManagerDelegateProtocol{
         }
     
     func didFinishSave(success: Bool) {
-        //
+        print("Success")
     }
 }

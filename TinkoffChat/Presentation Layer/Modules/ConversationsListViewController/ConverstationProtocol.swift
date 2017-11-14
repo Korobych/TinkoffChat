@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ConversationProtocol: class{
-    var userID: String? {get set}
+    var userID: String? {get set} // this is also a conversationID
     var name: String? {get set}
     var lastMessage: String? {get}
     var date: Date? {get}

@@ -15,7 +15,7 @@ protocol MessageCellConfiguration {
 
 class ReceivedMessageData : Codable, MessageCellConfiguration{
     let eventType = "TextMessage"
-    let messageId = generateMessageId()
+    let messageID = generateMessageID()
     var text: String
     var type: String
     var date: Date?
@@ -25,7 +25,7 @@ class ReceivedMessageData : Codable, MessageCellConfiguration{
         self.date = Date()
     }
     
-    static func generateMessageId() -> String {
+    static func generateMessageID() -> String {
         return ("\(arc4random_uniform(UINT32_MAX))+\(Date.timeIntervalSinceReferenceDate)+\(arc4random_uniform(UINT32_MAX))".data(using: .utf8)?.base64EncodedString())!
     }
     

@@ -16,16 +16,16 @@ extension Date {
 // Класс ячейки диалогов
 class DialogCustomCell: UITableViewCell {
     
-    // Имя
+    // Name
     @IBOutlet weak var dialogPartnerNameLabel: UILabel!
-    //Текст последнего сообщения
+    //Content of the last message
     @IBOutlet weak var dialogPartnerLastMessageLabel: UILabel!
-    //Дата последнего сообщения
+    //Date of the last message
     @IBOutlet weak var dialogPartnerLastMessageDateLabel: UILabel!
     
     
     func setupCell(name: String?, message: String?, date: Date?, online: Bool, unread: Bool){
-        // Логика проверки даты
+        // Logic of changing data format if the message is 'older' than 1 day
         let dateFormatter = DateFormatter()
         if date != nil{
             if date! < Date().yesterday{
@@ -34,13 +34,13 @@ class DialogCustomCell: UITableViewCell {
                 dateFormatter.setLocalizedDateFormatFromTemplate("HH:mm")
             }
         }
-        //логика проверки нулевого сообщения + установление для него нового шрифта
+        //logic of checking nil message content + changing font if its true
         if message == nil{
             dialogPartnerLastMessageLabel.font = UIFont(name: "HelveticaNeue-LightItalic", size: 14)
             dialogPartnerLastMessageLabel.text = "No messages yet"
         }
         else{
-            // логика выделения жирным шрифтом непрочитанного сообещения
+            // logic of changing font to bold if its unread message
             if unread{
                 dialogPartnerLastMessageLabel.font = UIFont.boldSystemFont(ofSize: 15)
             } else
