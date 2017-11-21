@@ -24,6 +24,7 @@ extension AppUser {
             return nil
         }
         
+        
         do {
             let results = try context.fetch(fetchRequest)
             assert(results.count < 2, "Multiple AppUsers found!")
@@ -37,6 +38,7 @@ extension AppUser {
         if appUser == nil {
             appUser = AppUser.insertAppUser(in: context)
         }
+        
         
         return appUser
     }

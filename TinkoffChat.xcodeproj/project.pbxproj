@@ -27,6 +27,7 @@
 		984FA4601FA8B65200039CE5 /* CommunicatorDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984FA45F1FA8B65200039CE5 /* CommunicatorDelegateProtocol.swift */; };
 		984FA4621FA8B6DD00039CE5 /* CommunicationManagerDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984FA4611FA8B6DD00039CE5 /* CommunicationManagerDelegateProtocol.swift */; };
 		984FA4641FA8B74B00039CE5 /* CommunicationManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984FA4631FA8B74B00039CE5 /* CommunicationManagerProtocol.swift */; };
+		987219151FC337F600C58A6F /* PictureLoaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987219141FC337F600C58A6F /* PictureLoaderViewController.swift */; };
 		98788D411FBAFA8A009903D4 /* FRCConversationsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98788D401FBAFA8A009903D4 /* FRCConversationsList.swift */; };
 		98788D431FBAFAA5009903D4 /* FRCConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98788D421FBAFAA5009903D4 /* FRCConversation.swift */; };
 		98AFFBAE1FB0DC0B006A9F23 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AFFBAD1FB0DC0B006A9F23 /* StorageManager.swift */; };
@@ -39,8 +40,15 @@
 		98E0F8081F72C9C7002E1496 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98E0F8071F72C9C7002E1496 /* Assets.xcassets */; };
 		98E0F80B1F72C9C7002E1496 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E0F8091F72C9C7002E1496 /* LaunchScreen.storyboard */; };
 		98E0F8131F72D1A8002E1496 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98E0F8121F72D1A8002E1496 /* Media.xcassets */; };
+		98E744D61FC42F8E0031D907 /* RequestsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E744D51FC42F8E0031D907 /* RequestsFactory.swift */; };
+		98E744D81FC433000031D907 /* NetworkProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E744D71FC433000031D907 /* NetworkProtocols.swift */; };
+		98E744DA1FC433E60031D907 /* ImagesListParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E744D91FC433E60031D907 /* ImagesListParser.swift */; };
+		98E744DC1FC437200031D907 /* SingleImageParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E744DB1FC437200031D907 /* SingleImageParser.swift */; };
+		98E744DE1FC443B60031D907 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E744DD1FC443B60031D907 /* Requests.swift */; };
+		98E744E11FC4490B0031D907 /* RequestsSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E744E01FC4490B0031D907 /* RequestsSender.swift */; };
 		98F1A4541F7C3E9B0063980B /* Radomir Tinkov - Gilroy-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9832BAF51F764AA100838DB2 /* Radomir Tinkov - Gilroy-ExtraBold.otf */; };
 		98F1A4551F7C3E9B0063980B /* Radomir Tinkov - Gilroy-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9832BAF61F764AA100838DB2 /* Radomir Tinkov - Gilroy-Light.otf */; };
+		98F68A511FC35A0E0017A50F /* PictureCollectionViewCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F68A501FC35A0E0017A50F /* PictureCollectionViewCustomCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +74,7 @@
 		984FA45F1FA8B65200039CE5 /* CommunicatorDelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicatorDelegateProtocol.swift; sourceTree = "<group>"; };
 		984FA4611FA8B6DD00039CE5 /* CommunicationManagerDelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationManagerDelegateProtocol.swift; sourceTree = "<group>"; };
 		984FA4631FA8B74B00039CE5 /* CommunicationManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationManagerProtocol.swift; sourceTree = "<group>"; };
+		987219141FC337F600C58A6F /* PictureLoaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureLoaderViewController.swift; sourceTree = "<group>"; };
 		98788D401FBAFA8A009903D4 /* FRCConversationsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FRCConversationsList.swift; sourceTree = "<group>"; };
 		98788D421FBAFAA5009903D4 /* FRCConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FRCConversation.swift; sourceTree = "<group>"; };
 		98AFFBAD1FB0DC0B006A9F23 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -80,6 +89,13 @@
 		98E0F80A1F72C9C7002E1496 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		98E0F80C1F72C9C7002E1496 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98E0F8121F72D1A8002E1496 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		98E744D51FC42F8E0031D907 /* RequestsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsFactory.swift; sourceTree = "<group>"; };
+		98E744D71FC433000031D907 /* NetworkProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProtocols.swift; sourceTree = "<group>"; };
+		98E744D91FC433E60031D907 /* ImagesListParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListParser.swift; sourceTree = "<group>"; };
+		98E744DB1FC437200031D907 /* SingleImageParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageParser.swift; sourceTree = "<group>"; };
+		98E744DD1FC443B60031D907 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
+		98E744E01FC4490B0031D907 /* RequestsSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsSender.swift; sourceTree = "<group>"; };
+		98F68A501FC35A0E0017A50F /* PictureCollectionViewCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureCollectionViewCustomCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +138,7 @@
 				98788D3F1FBAE5FD009903D4 /* Data Manager */,
 				980813121FB092DE00482CAE /* Core Data */,
 				9813F2E01F9CA20B0093855D /* MultipeerConnectivity */,
+				98E744DF1FC448E80031D907 /* Network */,
 			);
 			path = "Core Layer";
 			sourceTree = "<group>";
@@ -162,6 +179,7 @@
 				9841E5501FA883EF00B2EB05 /* ProfileViewController */,
 				9841E5541FA8856B00B2EB05 /* ConversationsListViewController */,
 				9841E5551FA8859F00B2EB05 /* ConversationViewController */,
+				987219131FC3361400C58A6F /* PictureLoaderController */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -198,14 +216,21 @@
 		9841E5561FA8865800B2EB05 /* Service Layer */ = {
 			isa = PBXGroup;
 			children = (
+				98E744D31FC42F230031D907 /* Profile Service */,
+				98E744D21FC42ED50031D907 /* Communication Manager */,
 				98788D441FBAFAAC009903D4 /* Fetched Results Controller */,
-				98164B7F1FA88F48008BE143 /* ProfileManager.swift */,
-				98164B831FA8934A008BE143 /* ProfileService.swift */,
-				984FA4611FA8B6DD00039CE5 /* CommunicationManagerDelegateProtocol.swift */,
-				984FA4631FA8B74B00039CE5 /* CommunicationManagerProtocol.swift */,
-				9813F2E31F9CA2C70093855D /* CommunicationManager.swift */,
+				98E744D41FC42F4E0031D907 /* Network Service */,
 			);
 			path = "Service Layer";
+			sourceTree = "<group>";
+		};
+		987219131FC3361400C58A6F /* PictureLoaderController */ = {
+			isa = PBXGroup;
+			children = (
+				987219141FC337F600C58A6F /* PictureLoaderViewController.swift */,
+				98F68A501FC35A0E0017A50F /* PictureCollectionViewCustomCell.swift */,
+			);
+			path = PictureLoaderController;
 			sourceTree = "<group>";
 		};
 		98788D3F1FBAE5FD009903D4 /* Data Manager */ = {
@@ -253,6 +278,45 @@
 				9841E54D1FA882A200B2EB05 /* Supporting FIles */,
 			);
 			path = TinkoffChat;
+			sourceTree = "<group>";
+		};
+		98E744D21FC42ED50031D907 /* Communication Manager */ = {
+			isa = PBXGroup;
+			children = (
+				984FA4611FA8B6DD00039CE5 /* CommunicationManagerDelegateProtocol.swift */,
+				984FA4631FA8B74B00039CE5 /* CommunicationManagerProtocol.swift */,
+				9813F2E31F9CA2C70093855D /* CommunicationManager.swift */,
+			);
+			path = "Communication Manager";
+			sourceTree = "<group>";
+		};
+		98E744D31FC42F230031D907 /* Profile Service */ = {
+			isa = PBXGroup;
+			children = (
+				98164B7F1FA88F48008BE143 /* ProfileManager.swift */,
+				98164B831FA8934A008BE143 /* ProfileService.swift */,
+			);
+			path = "Profile Service";
+			sourceTree = "<group>";
+		};
+		98E744D41FC42F4E0031D907 /* Network Service */ = {
+			isa = PBXGroup;
+			children = (
+				98E744D71FC433000031D907 /* NetworkProtocols.swift */,
+				98E744DD1FC443B60031D907 /* Requests.swift */,
+				98E744D51FC42F8E0031D907 /* RequestsFactory.swift */,
+				98E744D91FC433E60031D907 /* ImagesListParser.swift */,
+				98E744DB1FC437200031D907 /* SingleImageParser.swift */,
+			);
+			path = "Network Service";
+			sourceTree = "<group>";
+		};
+		98E744DF1FC448E80031D907 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				98E744E01FC4490B0031D907 /* RequestsSender.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -335,10 +399,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98E744DA1FC433E60031D907 /* ImagesListParser.swift in Sources */,
 				9813F2E41F9CA2C70093855D /* CommunicationManager.swift in Sources */,
 				98164B861FA8946E008BE143 /* DataManagerProtocol.swift in Sources */,
 				98AFFBAE1FB0DC0B006A9F23 /* StorageManager.swift in Sources */,
 				98164B821FA88F9A008BE143 /* Profile.swift in Sources */,
+				98E744D61FC42F8E0031D907 /* RequestsFactory.swift in Sources */,
 				982516CF1FA8C2C300CE4555 /* ConverstationProtocol.swift in Sources */,
 				98CA67FB1F880FA2001478A2 /* DialogCustomCellStyle.swift in Sources */,
 				980F0EEC1FBA016F00429DA0 /* FetchesRequestManager.swift in Sources */,
@@ -349,19 +415,25 @@
 				98788D411FBAFA8A009903D4 /* FRCConversationsList.swift in Sources */,
 				98164B841FA8934A008BE143 /* ProfileService.swift in Sources */,
 				980813141FB092FF00482CAE /* CoreDataExtentions.swift in Sources */,
+				98F68A511FC35A0E0017A50F /* PictureCollectionViewCustomCell.swift in Sources */,
 				98E0F8031F72C9C7002E1496 /* ProfileViewController.swift in Sources */,
 				982FD4981F8A830B00691C5B /* IncomingMessageCustomCell.swift in Sources */,
 				98BBA3F21F896A370025AC8E /* ConversationViewController.swift in Sources */,
 				982FD49A1F8A832100691C5B /* OutgoingMessageCustomCell.swift in Sources */,
+				98E744D81FC433000031D907 /* NetworkProtocols.swift in Sources */,
 				984FA4621FA8B6DD00039CE5 /* CommunicationManagerDelegateProtocol.swift in Sources */,
 				98164B8A1FA8986F008BE143 /* OperationDataManager.swift in Sources */,
+				98E744E11FC4490B0031D907 /* RequestsSender.swift in Sources */,
 				980813161FB0CA6700482CAE /* CoreDataStack.swift in Sources */,
 				9808130E1FB0827E00482CAE /* DialogCustomCellData.swift in Sources */,
 				98E0F8011F72C9C7002E1496 /* AppDelegate.swift in Sources */,
 				98164B881FA89596008BE143 /* GCDDataManager.swift in Sources */,
+				987219151FC337F600C58A6F /* PictureLoaderViewController.swift in Sources */,
 				984FA4601FA8B65200039CE5 /* CommunicatorDelegateProtocol.swift in Sources */,
+				98E744DC1FC437200031D907 /* SingleImageParser.swift in Sources */,
 				9813F2E21F9CA2440093855D /* CommunicatorProtocol.swift in Sources */,
 				98788D431FBAFAA5009903D4 /* FRCConversation.swift in Sources */,
+				98E744DE1FC443B60031D907 /* Requests.swift in Sources */,
 				98182A9C1F87E25100C4B573 /* ConversationsListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
