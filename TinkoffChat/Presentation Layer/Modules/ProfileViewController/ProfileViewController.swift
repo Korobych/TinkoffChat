@@ -146,6 +146,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     //Вызов при нажатии на кнопку изменения аватара
     @IBAction func changeAvatarAction(_ sender: Any) {
+        self.view.endEditing(true)
         print("Выбери изображение профиля")
         let alertChooseVariantForPhotoMaking = UIAlertController(title: "Выберите способ", message: nil, preferredStyle: .actionSheet)
         alertChooseVariantForPhotoMaking.addAction(UIAlertAction(title: "Камера", style: .default, handler: { _ in
@@ -316,6 +317,22 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    // Extra Feature: User's name maximum characters
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        let limitLength = 22
+        let newLength = text.count + string.count - range.length
+        return newLength <= limitLength
+    }
+    
+    // Extra Feature: User's info maximum characters
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        guard let textViewContent = textView.text else { return true }
+        let limitLength = 110
+        let newLength = textViewContent.count + text.count - range.length
+        return newLength <= limitLength
     }
     
     // Логика включения возможности сохранения

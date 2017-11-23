@@ -22,14 +22,14 @@ class Profile: NSObject, NSCoding{
     
     override init() {
         photo = #imageLiteral(resourceName: "placeholder-user")
-        name = "Name"
-        info = "Info"
+        name = "Your username"
+        info = "Write down info about yourself here :)"
     }
     
     init(photo: UIImage?, name: String?, info: String?) {
         self.photo = photo ?? #imageLiteral(resourceName: "placeholder-user")
-        self.name = name ?? "Sergey Korobin"
-        self.info = info ?? "Readhead programmer. Swift is my passion. :D"
+        self.name = name ?? "Your username"
+        self.info = info ?? "Write down info about yourself here :)"
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -378,7 +378,7 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qib-oJ-ElU">
                                                         <rect key="frame" x="0.0" y="0.0" width="344" height="55"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                                        <state key="normal" title="Core Data">
+                                                        <state key="normal" title="Сохранить">
                                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         </state>
                                                         <connections>
@@ -494,6 +494,7 @@
                             <constraint firstItem="u6c-PD-Afr" firstAttribute="top" secondItem="3oe-cM-NzJ" secondAttribute="top" constant="20" id="BTH-94-xvk"/>
                             <constraint firstItem="o65-Ls-Vn2" firstAttribute="leading" secondItem="jmr-vl-4fD" secondAttribute="leading" constant="175" id="GlV-uU-0kd"/>
                             <constraint firstItem="u6c-PD-Afr" firstAttribute="trailing" secondItem="jmr-vl-4fD" secondAttribute="trailing" id="QJt-Rr-S1e"/>
+                            <constraint firstItem="o65-Ls-Vn2" firstAttribute="centerX" secondItem="3oe-cM-NzJ" secondAttribute="centerX" id="XoA-MG-OWq"/>
                             <constraint firstItem="jmr-vl-4fD" firstAttribute="bottom" secondItem="c3Q-9h-X2u" secondAttribute="bottom" id="bFE-NY-j2j"/>
                             <constraint firstItem="c3Q-9h-X2u" firstAttribute="leading" secondItem="jmr-vl-4fD" secondAttribute="leading" id="gUI-ZD-2aD"/>
                             <constraint firstItem="o65-Ls-Vn2" firstAttribute="top" secondItem="u6c-PD-Afr" secondAttribute="bottom" constant="331" id="osb-gS-0mW"/>
