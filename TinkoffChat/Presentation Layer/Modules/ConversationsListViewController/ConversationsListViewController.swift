@@ -14,6 +14,8 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
     var communicationManager: CommunicationManagerProtocol = CommunicationManager()
     private let dataManager: DataManagerProtocol = GCDDataManager()
     private var model: ProfileManagerProtocol = ProfileManager()
+    lazy var fallingAnimation = FallingAnimation(objectImage: #imageLiteral(resourceName: "tinkoff_bank_general_logo"), to: view)
+
 
     func reloadAfterChange() {
         DispatchQueue.main.async {
@@ -40,13 +42,21 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedDialog = communicationManager.onlineDialogs[indexPath.row]
-        // Logic of reading message added (now label unreadMessage would change in
-        // ConversationListViewController and on screen respectively)
-        selectedDialog.hasUnreadMessages = false
+        if indexPath.section == 0 {
+            let selectedDialog = communicationManager.onlineDialogs[indexPath.row]
+            // Logic of reading message added (now label unreadMessage would change in
+            // ConversationListViewController and on screen respectively)
+            selectedDialog.hasUnreadMessages = false
+            // perform segue
+            performSegue(withIdentifier: "moveToConversation", sender: selectedDialog)
+        }
+        if indexPath.section == 1{
+            let selectedDialog = communicationManager.offlineDialogs[indexPath.row]
+            selectedDialog.hasUnreadMessages = false
+            // perform segue
+            performSegue(withIdentifier: "moveToConversation", sender: selectedDialog)
+        }
         tableView.deselectRow(at: indexPath, animated: true)
-        // perform segue
-        performSegue(withIdentifier: "moveToConversation", sender: selectedDialog)
         tableView.reloadData()
     }
     
@@ -66,6 +76,15 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
         }
     }
     
+    // smooth animation for the cell's update
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.layer.transform = CATransform3DMakeScale(0.1,0.1,1)
+        UIView.animate(withDuration: 0.4, animations: {
+            cell.layer.transform = CATransform3DMakeScale(1,1,1)
+        })
+        
+    }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath) as! DialogCustomCell
@@ -74,9 +93,22 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
             dialogData = communicationManager.onlineDialogs[indexPath.row]
             if let data = dialogData {
                 cell.setupCell(name: data.name, message: data.lastMessage, date: data.date, online: data.online, unread: data.hasUnreadMessages)
-                cell.backgroundColor = UIColor.yellow.withAlphaComponent(0.4)
+                UIView.animate(withDuration: 1, animations: {
+                    cell.backgroundColor = UIColor.yellow.withAlphaComponent(0.4)
+                })
             }
                 else{
+                print("error")
+            }
+        }
+        if indexPath.section == 1{
+            let dialogData: ConversationProtocol?
+            dialogData = communicationManager.offlineDialogs[indexPath.row]
+            if let data = dialogData {
+                cell.setupCell(name: data.name, message: data.lastMessage, date: data.date, online: data.online, unread: data.hasUnreadMessages)
+                cell.backgroundColor = UIColor.white
+            }
+            else{
                 print("error")
             }
         }
@@ -93,6 +125,12 @@ class ConversationsListViewController: UIViewController, UITableViewDataSource, 
         communicationManager.communicationManagerDelegate = self
         model.delegate = self
         model.getProfileInfo()
+        fallingAnimation.gestureRecognizerSetup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
     }
 }
 

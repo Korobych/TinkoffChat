@@ -11,7 +11,7 @@ import Foundation
 class CommunicationManager: CommunicationManagerProtocol, CommunicatorDelegateProtocol  {
 
     weak var communicationManagerDelegate: CommunicationManagerDelegateProtocol?
-    weak var dialogDelegate: CommunicationManagerDelegateProtocol?
+    weak var dialogDelegate: CommunicationManagerMessagesDelegateProtocol?
     var displayedName: String {
         didSet { communicator.displayedName = displayedName
         }
@@ -52,10 +52,24 @@ class CommunicationManager: CommunicationManagerProtocol, CommunicatorDelegatePr
                 return
             }
         }
-        let dialogNew = DialogCustomOnlineCellData(userID: userID, name: userName, hasUnreadMessages: true)
+        
+        var dialogNew = DialogCustomOnlineCellData(userID: userID, name: userName, hasUnreadMessages: true)
+        
+        var userIndex: Int
+        for (index, dialog) in offlineDialogs.enumerated() {
+            if dialog.userID == userID {
+                userIndex = index
+                offlineDialogs[userIndex].online = true
+                dialogNew = dialog as! DialogCustomOnlineCellData
+                offlineDialogs.remove(at: userIndex)
+                break
+            }
+        }
         onlineDialogs.append(dialogNew)
         DispatchQueue.main.async {
             self.communicationManagerDelegate?.reloadAfterChange()
+            self.dialogDelegate?.reloadAfterChange()
+            self.dialogDelegate?.changeHeader()
         }
     }
     //Логика обработки потери юзера
@@ -69,10 +83,13 @@ class CommunicationManager: CommunicationManagerProtocol, CommunicatorDelegatePr
         }
         if let lostUserIndex = lostUserIndex {
             onlineDialogs[lostUserIndex].online = false
+            // new
+            offlineDialogs.append(onlineDialogs[lostUserIndex])
             onlineDialogs.remove(at: lostUserIndex)
             DispatchQueue.main.async {
                 self.communicationManagerDelegate?.reloadAfterChange()
                 self.dialogDelegate?.reloadAfterChange()
+                self.dialogDelegate?.changeHeader()
             }
         }
     }

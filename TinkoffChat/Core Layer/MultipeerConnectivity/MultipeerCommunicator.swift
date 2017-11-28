@@ -13,7 +13,6 @@ class MultipeerCommunicator: NSObject, CommunicatorProtocol, MCNearbyServiceBrow
 
     var displayedName: String = UIDevice.current.name {
         didSet {
-            //???????
             online = false
             online = true
         }

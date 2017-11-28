@@ -34,6 +34,7 @@
 		98BBA3F21F896A370025AC8E /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BBA3F11F896A370025AC8E /* ConversationViewController.swift */; };
 		98BF0C981FB124BD00626369 /* Chat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 98BF0C961FB124BD00626369 /* Chat.xcdatamodeld */; };
 		98CA67FB1F880FA2001478A2 /* DialogCustomCellStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CA67FA1F880FA2001478A2 /* DialogCustomCellStyle.swift */; };
+		98CAE82F1FCDA2A90010E060 /* FallingAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CAE82E1FCDA2A90010E060 /* FallingAnimation.swift */; };
 		98E0F8011F72C9C7002E1496 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E0F8001F72C9C7002E1496 /* AppDelegate.swift */; };
 		98E0F8031F72C9C7002E1496 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E0F8021F72C9C7002E1496 /* ProfileViewController.swift */; };
 		98E0F8061F72C9C7002E1496 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E0F8041F72C9C7002E1496 /* Main.storyboard */; };
@@ -81,6 +82,7 @@
 		98BBA3F11F896A370025AC8E /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		98BF0C971FB124BD00626369 /* Chat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chat.xcdatamodel; sourceTree = "<group>"; };
 		98CA67FA1F880FA2001478A2 /* DialogCustomCellStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogCustomCellStyle.swift; sourceTree = "<group>"; };
+		98CAE82E1FCDA2A90010E060 /* FallingAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FallingAnimation.swift; sourceTree = "<group>"; };
 		98E0F7FD1F72C9C7002E1496 /* TinkoffChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E0F8001F72C9C7002E1496 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98E0F8021F72C9C7002E1496 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				98E0F8121F72D1A8002E1496 /* Media.xcassets */,
 				98E0F8091F72C9C7002E1496 /* LaunchScreen.storyboard */,
 				98E0F80C1F72C9C7002E1496 /* Info.plist */,
+				98CAE82E1FCDA2A90010E060 /* FallingAnimation.swift */,
 			);
 			path = "Supporting FIles";
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 				98E744D81FC433000031D907 /* NetworkProtocols.swift in Sources */,
 				984FA4621FA8B6DD00039CE5 /* CommunicationManagerDelegateProtocol.swift in Sources */,
 				98164B8A1FA8986F008BE143 /* OperationDataManager.swift in Sources */,
+				98CAE82F1FCDA2A90010E060 /* FallingAnimation.swift in Sources */,
 				98E744E11FC4490B0031D907 /* RequestsSender.swift in Sources */,
 				980813161FB0CA6700482CAE /* CoreDataStack.swift in Sources */,
 				9808130E1FB0827E00482CAE /* DialogCustomCellData.swift in Sources */,

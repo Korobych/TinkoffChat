@@ -14,6 +14,6 @@ protocol CommunicationManagerProtocol {
     var onlineDialogs: [ConversationProtocol] {get}
     var offlineDialogs: [ConversationProtocol] {get}
     weak var communicationManagerDelegate: CommunicationManagerDelegateProtocol? {get set}
-    weak var dialogDelegate: CommunicationManagerDelegateProtocol? {get set}
+    weak var dialogDelegate: CommunicationManagerMessagesDelegateProtocol? {get set}
     func sendMessageToDialog(dialog: ConversationProtocol, text: String, successHadler: ((Bool) -> ())?)
 }

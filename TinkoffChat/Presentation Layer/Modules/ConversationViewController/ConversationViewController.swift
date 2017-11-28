@@ -32,15 +32,12 @@ class ReceivedMessageData : Codable, MessageCellConfiguration{
     
 }
 
-class ConversationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CommunicationManagerDelegateProtocol{
+class ConversationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CommunicationManagerMessagesDelegateProtocol{
     
     var communicationManager:  CommunicationManagerProtocol!
     var conversation: ConversationProtocol!
-    //строка с предыдущего экрана с Именем собеседника - идет в тайтл
-    var dialogPersonNameString: String?
-    //экстра функционал - не используется в тз (для логики очистки экрана диалога при отсутствии сообщений)
-    var dialogLastMessageString: String?
-    // искусственно созданный лист сообщений
+    lazy var fallingAnimation = FallingAnimation(objectImage: #imageLiteral(resourceName: "tinkoff_bank_general_logo"), to: view)
+
     
     @IBOutlet weak var messagesTableView: UITableView!
     
@@ -48,7 +45,14 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
     
     @IBOutlet weak var sendButton: UIButton!
     
+    
+    
     @IBAction func sendButtonTapped(_ sender: Any) {
+        if messageTextFiled.text == ""
+        {
+            print("No empty messages allowed!")
+            return
+        }
         communicationManager.sendMessageToDialog(dialog: conversation, text: messageTextFiled.text!, successHadler:
         { (success) in
             if success {
@@ -63,11 +67,53 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
         DispatchQueue.main.async {
             self.messagesTableView.reloadData()
             if self.conversation.online {
-                self.sendButton.isEnabled = true
+                UIView.animate(withDuration: 1, animations: {
+                    self.sendButton.isEnabled = true
+                    self.sendButton.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
+                }, completion: { _ in
+                    UIView.animate(withDuration: 0.4, animations: {
+                        self.sendButton.transform = CGAffineTransform.identity
+                    })
+                })
+                
             } else {
-                self.sendButton.isEnabled = false
+                UIView.animate(withDuration: 1, animations: {
+                    self.sendButton.isEnabled = false
+                    self.sendButton.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
+                }, completion: { _ in
+                    UIView.animate(withDuration: 0.4, animations: {
+                        self.sendButton.transform = CGAffineTransform.identity
+                    })
+                })
             }
             self.conversation.hasUnreadMessages = false
+            
+        }
+    }
+    
+    func changeHeader(){
+        DispatchQueue.main.async {
+            if self.conversation.online {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.green]
+                    self.navigationController?.navigationBar.transform = CGAffineTransform(scaleX: 1.10, y: 1.10)
+                }, completion: { _ in
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.navigationController?.navigationBar.transform = CGAffineTransform.identity
+                    })
+                })
+                
+            } else {
+                UIView.animate(withDuration: 0.5, animations: {
+                    
+                    self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+                    self.navigationController?.navigationBar.transform = CGAffineTransform(scaleX: 1.10, y: 1.10)
+                }, completion: { _ in
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.navigationController?.navigationBar.transform = CGAffineTransform.identity
+                    })
+                })
+            }
         }
     }
     
@@ -92,27 +138,33 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let messageUnit = conversation.messagesStore[indexPath.section]
+        // autoscroll feature added
+        let lastIndex = IndexPath(row: 0, section: conversation.messagesStore.count - 1)
+        if indexPath.section == self.conversation.messagesStore.count - 1{
+            DispatchQueue.main.async {
+                self.messagesTableView.scrollToRow(at: lastIndex, at: .bottom, animated: true)
+            }
+        }
         if messageUnit.type == "incoming"{
             let cell = tableView.dequeueReusableCell(withIdentifier: "PartnerMessage", for: indexPath) as! IncomingMessageCustomCell
             cell.messageCellFixing()
             cell.setupCell(message: messageUnit.text)
-            DispatchQueue.main.async {
-                cell.layer.borderWidth = 0
-                cell.layer.cornerRadius = 15
-            }
+            cell.layer.borderWidth = 0
+            cell.layer.cornerRadius = 15
+            
             return cell
             
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MyMessage", for: indexPath) as! OutgoingMessageCustomCell
             cell.messageCellFixing()
             cell.setupCell(message: messageUnit.text)
-            DispatchQueue.main.async {
-                cell.layer.borderWidth = 0
-                cell.layer.cornerRadius = 15
-            }
+            cell.layer.borderWidth = 0
+            cell.layer.cornerRadius = 15
+    
             return cell
-        
+    
         }
+        
     }
     
     override func viewDidLoad() {
@@ -120,8 +172,11 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
         self.messagesTableView.dataSource = self
         self.messagesTableView.delegate = self
         self.communicationManager.dialogDelegate = self
-
-        navigationItem.title = conversation.name
+        if conversation.online != true{
+            sendButton.isEnabled = false
+        }
+        self.navigationItem.title = conversation.name
+        fallingAnimation.gestureRecognizerSetup()
         NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 

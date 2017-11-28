@@ -11,3 +11,8 @@ import Foundation
 protocol CommunicationManagerDelegateProtocol: class {
     func reloadAfterChange()
 }
+
+protocol CommunicationManagerMessagesDelegateProtocol: class {
+    func reloadAfterChange()
+    func changeHeader()
+}

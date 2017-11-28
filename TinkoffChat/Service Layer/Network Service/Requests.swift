@@ -13,7 +13,8 @@ class ImagesListRequest : RequestProtocol {
     
     var urlRequest: URLRequest?
     // hardcoded category
-    let neededCategory = "sky"
+    let neededCategory = "technology"
+    //
     init(apiKey: String, page: Int = 1) {
         guard let url = URL(string: "https://pixabay.com/api/?key=\(apiKey)&q=\(neededCategory)&image_type=photo&page=\(page)")
             

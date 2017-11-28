@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var imagePicker = UIImagePickerController() // переменная для хранения информации и взаимодействия пользователя с встроенными функциями (использование камеры и галерреи) для использования этих данных программой
     var lastProfileSave: ProfileSaveType = .CoreData
     private var model: ProfileManagerProtocol = ProfileManager()
+    lazy var fallingAnimation = FallingAnimation(objectImage: #imageLiteral(resourceName: "tinkoff_bank_general_logo"), to: view)
     
     @IBOutlet weak var nameTextField: UITextField!
     
@@ -48,7 +49,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         model.delegate = self
         model.getProfileInfo()
-        
+        fallingAnimation.gestureRecognizerSetup()
         //
 //        gcdButton.layer.cornerRadius = 10
 //        gcdButton.layer.borderWidth = 2
